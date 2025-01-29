@@ -6,23 +6,21 @@ package week1;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import java.sql.PreparedStatement;
-
 
 /**
  *
  * @author USER
  */
-public class Login extends javax.swing.JFrame {
+public class AdminLogin extends javax.swing.JFrame {
 
     /**
-     * Creates new form Login
+     * Creates new form NewJFrame
      */
-    public Login() {
+    public AdminLogin() {
         initComponents();
     }
 
@@ -36,11 +34,11 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        userPass = new javax.swing.JPasswordField();
+        adminPass = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
-        userId = new javax.swing.JTextField();
+        adminId = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        saleStaffLogin = new javax.swing.JButton();
+        adminLogin = new javax.swing.JButton();
         jToggleButton1 = new javax.swing.JToggleButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -50,43 +48,40 @@ public class Login extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 153, 255));
-        setMaximumSize(new java.awt.Dimension(0, 0));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(93, 93, 93));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        userPass.addActionListener(new java.awt.event.ActionListener() {
+        adminPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userPassActionPerformed(evt);
+                adminPassActionPerformed(evt);
             }
         });
-        jPanel2.add(userPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 150, -1));
+        jPanel2.add(adminPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 150, -1));
 
         jLabel3.setFont(new java.awt.Font("Myanmar Text", 1, 14)); // NOI18N
         jLabel3.setText("Password:");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, -1, -1));
 
-        userId.addActionListener(new java.awt.event.ActionListener() {
+        adminId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userIdActionPerformed(evt);
+                adminIdActionPerformed(evt);
             }
         });
-        jPanel2.add(userId, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 150, -1));
+        jPanel2.add(adminId, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 150, -1));
 
         jLabel1.setFont(new java.awt.Font("Myanmar Text", 1, 14)); // NOI18N
-        jLabel1.setText("User ID:");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, -1, -1));
+        jLabel1.setText("Admin ID:");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, -1, -1));
 
-        saleStaffLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        saleStaffLogin.setText("Login");
-        saleStaffLogin.addActionListener(new java.awt.event.ActionListener() {
+        adminLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        adminLogin.setText("Login");
+        adminLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saleStaffLoginActionPerformed(evt);
+                adminLoginActionPerformed(evt);
             }
         });
-        jPanel2.add(saleStaffLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, -1, -1));
+        jPanel2.add(adminLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, -1, -1));
 
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/week1/login-avatar (1).png"))); // NOI18N
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -94,14 +89,14 @@ public class Login extends javax.swing.JFrame {
                 jToggleButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 280, 40, 40));
+        jPanel2.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 40, 40));
 
         jLabel4.setFont(new java.awt.Font("Myanmar Text", 1, 12)); // NOI18N
-        jLabel4.setText("ADMIN");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 50, 20));
+        jLabel4.setText("SALESTAFF");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 70, 20));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/week1/key (3).png"))); // NOI18N
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, -1, 70));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, 70));
 
         jPanel1.setBackground(new java.awt.Color(68, 68, 68));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -118,85 +113,100 @@ public class Login extends javax.swing.JFrame {
         jLabel6.setText("LOGIN\n");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 80, 30));
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 120, 340));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 120, 340));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 340));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void userIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userIdActionPerformed
+    private void adminPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminPassActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userIdActionPerformed
+    }//GEN-LAST:event_adminPassActionPerformed
 
-    private void userPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userPassActionPerformed
+    private void adminIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminIdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userPassActionPerformed
+    }//GEN-LAST:event_adminIdActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-       this.setVisible(false);
-        AdminLogin back = new AdminLogin();
+        this.setVisible(false);
+        Login back = new Login();
         back.setVisible(true);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
-    private void saleStaffLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleStaffLoginActionPerformed
-        String uN = userId.getText();
-        char[] passwordArray = userPass.getPassword();
-        String UP = new String(passwordArray);
+    private void adminLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminLoginActionPerformed
+        String uN = adminId.getText();
+char[] passwordArray = adminPass.getPassword();
+String UP = new String(passwordArray);
 
-        String url = "jdbc:mysql://localhost:3306/srm_db";
-        String user = "root";
-        String pass = "";
+String url = "jdbc:mysql://localhost:3306/srm_db";
+String user = "root";
+String pass = "";
 
-        if ("".equals(uN)) {
-        JOptionPane.showMessageDialog(new JFrame(), "UserName is required", "Dialog", JOptionPane.ERROR_MESSAGE);
-        return;
+if ("".equals(uN)) {
+    JOptionPane.showMessageDialog(new JFrame(), "UserName is required", "Dialog", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+if ("".equals(UP)) {
+    JOptionPane.showMessageDialog(new JFrame(), "Password is required", "Dialog", JOptionPane.ERROR_MESSAGE);    
+    return;
+}
+
+Connection con = null;
+PreparedStatement pst = null;
+ResultSet rs = null;
+
+try {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    con = DriverManager.getConnection(url, user, pass);
+    String query = "SELECT role FROM user WHERE name = ? AND password = ?";
+    pst = con.prepareStatement(query);
+    pst.setString(1, uN);
+    pst.setString(2, UP); 
+
+    rs = pst.executeQuery();
+
+    if (rs.next()) {
+        String role = rs.getString("role"); // Get the role from the result set
+        if ("admin".equalsIgnoreCase(role)) { // Check if the role is "admin"
+            JOptionPane.showMessageDialog(null, "Admin accounts cannot log in here.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return; // Terminate the login process for admin accounts
+        } else if ("sales staff".equalsIgnoreCase(role)) { // Check if the role is "sales staff"
+            JOptionPane.showMessageDialog(null, "Sales staff accounts cannot log in here.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return; // Terminate the login process for sales staff accounts
         }
 
-        if ("".equals(UP)) {
-        JOptionPane.showMessageDialog(new JFrame(), "Password is required", "Dialog", JOptionPane.ERROR_MESSAGE);    
-        return;
-        }
-
-        Connection con = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
-
-           try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url, user, pass);
-            String query = "SELECT role FROM user WHERE name = ? AND password = ?";
-            pst = con.prepareStatement(query);
-            pst.setString(1, uN);
-            pst.setString(2, UP); 
-    
-            rs = pst.executeQuery();
-    
-            if (rs.next()) {
-                String role = rs.getString("role"); // Get the role from the result set
-                if ("admin".equalsIgnoreCase(role)) { // Check if the role is "admin"
-                    JOptionPane.showMessageDialog(null, "Admin accounts cannot log in here.", "ERROR", JOptionPane.ERROR_MESSAGE);
-                return; // Terminate the login process for admin accounts
-            }
         JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
         this.setVisible(false);
         // AdminDashboard adminDashboard = new AdminDashboard();
         // adminDashboard.setVisible(true);
-        } else {
+    } else {
         JOptionPane.showMessageDialog(null, "Invalid Username or Password", "ERROR", JOptionPane.INFORMATION_MESSAGE);            
-        }
-            } catch (Exception e) {
-        JOptionPane.showMessageDialog(new JFrame(), "ERROR: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-            } finally {
-        try {
-            if (rs != null) rs.close();
-            if (pst != null) pst.close();
-            if (con != null) con.close();
-        } catch (Exception e) {
+    }
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(new JFrame(), "ERROR: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+} finally {
+    try {
+        if (rs != null) rs.close();
+        if (pst != null) pst.close();
+        if (con != null) con.close();
+    } catch (Exception e) {
         e.printStackTrace(); 
-            }
-        }
-    }//GEN-LAST:event_saleStaffLoginActionPerformed
+    }
+}
+    }//GEN-LAST:event_adminLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,25 +225,29 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new AdminLogin().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField adminId;
+    private javax.swing.JButton adminLogin;
+    private javax.swing.JPasswordField adminPass;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -244,8 +258,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JButton saleStaffLogin;
-    private javax.swing.JTextField userId;
-    private javax.swing.JPasswordField userPass;
     // End of variables declaration//GEN-END:variables
 }
