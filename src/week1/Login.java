@@ -32,6 +32,7 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPasswordField1 = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         userPass = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
@@ -40,11 +41,15 @@ public class Login extends javax.swing.JFrame {
         saleStaffLogin = new javax.swing.JButton();
         jToggleButton1 = new javax.swing.JToggleButton();
         jLabel4 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel8.setVisible(false);
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+
+        jPasswordField1.setText("jPasswordField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 153, 255));
@@ -97,8 +102,14 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setText("ADMIN");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 50, 20));
 
+        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Administrator");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, 100, 20));
+
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/week1/key (3).png"))); // NOI18N
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, -1, 70));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, 90, 60));
 
         jPanel1.setBackground(new java.awt.Color(68, 68, 68));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -131,7 +142,11 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_userPassActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-
+        if(jToggleButton1.isSelected()){
+            jLabel8.setVisible(true);}
+        else{
+            jLabel8.setVisible(false);
+        }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void saleStaffLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleStaffLoginActionPerformed
@@ -160,20 +175,19 @@ public class Login extends javax.swing.JFrame {
          try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, pass);
-            String query = "SELECT user_id FROM user WHERE name = ? AND password = ? AND role = ?";
+            String query = "SELECT user_id FROM user WHERE PersonnelID = ? AND password = ? AND role = ?";
             pst = con.prepareStatement(query);
             pst.setString(1, uN);
             pst.setString(2, UP); 
             pst.setString(3, role);
-    
+
             rs = pst.executeQuery();
     
             if (rs.next()) {
-
-            JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-            this.setVisible(false);
-            // AdminDashboard adminDashboard = new AdminDashboard();
-            // adminDashboard.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                this.setVisible(false);
+                // AdminDashboard adminDashboard = new AdminDashboard();
+                // adminDashboard.setVisible(true);
             }
             else {
             JOptionPane.showMessageDialog(null, "Invalid Username or Password", "ERROR", JOptionPane.INFORMATION_MESSAGE);            
@@ -234,8 +248,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JButton saleStaffLogin;
     private javax.swing.JTextField userId;
