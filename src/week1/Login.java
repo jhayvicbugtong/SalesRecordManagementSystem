@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package week1;
 
 import java.sql.Connection;
@@ -134,15 +131,14 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_userPassActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-       this.setVisible(false);
-        AdminLogin back = new AdminLogin();
-        back.setVisible(true);
+
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void saleStaffLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleStaffLoginActionPerformed
         String uN = userId.getText();
         char[] passwordArray = userPass.getPassword();
         String UP = new String(passwordArray);
+        String role = jToggleButton1.isSelected() ? "Admin" : "Sales Staff";
 
         String url = "jdbc:mysql://localhost:3306/srm_db";
         String user = "root";
@@ -157,34 +153,31 @@ public class Login extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(new JFrame(), "Password is required", "Dialog", JOptionPane.ERROR_MESSAGE);    
         return;
         }
-
         Connection con = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
 
-           try {
+         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, pass);
-            String query = "SELECT role FROM user WHERE name = ? AND password = ?";
+            String query = "SELECT user_id FROM user WHERE name = ? AND password = ? AND role = ?";
             pst = con.prepareStatement(query);
             pst.setString(1, uN);
             pst.setString(2, UP); 
+            pst.setString(3, role);
     
             rs = pst.executeQuery();
     
             if (rs.next()) {
-                String role = rs.getString("role"); // Get the role from the result set
-                if ("admin".equalsIgnoreCase(role)) { // Check if the role is "admin"
-                    JOptionPane.showMessageDialog(null, "Admin accounts cannot log in here.", "ERROR", JOptionPane.ERROR_MESSAGE);
-                return; // Terminate the login process for admin accounts
+
+            JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+            this.setVisible(false);
+            // AdminDashboard adminDashboard = new AdminDashboard();
+            // adminDashboard.setVisible(true);
             }
-        JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-        this.setVisible(false);
-        // AdminDashboard adminDashboard = new AdminDashboard();
-        // adminDashboard.setVisible(true);
-        } else {
-        JOptionPane.showMessageDialog(null, "Invalid Username or Password", "ERROR", JOptionPane.INFORMATION_MESSAGE);            
-        }
+            else {
+            JOptionPane.showMessageDialog(null, "Invalid Username or Password", "ERROR", JOptionPane.INFORMATION_MESSAGE);            
+            }
             } catch (Exception e) {
         JOptionPane.showMessageDialog(new JFrame(), "ERROR: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             } finally {
