@@ -39,12 +39,12 @@ public class Login extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        passTextField = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        useridTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        loginButton = new javax.swing.JButton();
+        adminButton = new javax.swing.JToggleButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -75,44 +75,44 @@ public class Login extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(93, 93, 93));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+        passTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                passTextFieldActionPerformed(evt);
             }
         });
-        jPanel2.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 150, -1));
+        jPanel2.add(passTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 150, -1));
 
         jLabel3.setFont(new java.awt.Font("Myanmar Text", 1, 14)); // NOI18N
         jLabel3.setText("Password:");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, -1, -1));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        useridTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                useridTextFieldActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 150, -1));
+        jPanel2.add(useridTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 150, -1));
 
         jLabel1.setFont(new java.awt.Font("Myanmar Text", 1, 14)); // NOI18N
         jLabel1.setText("User ID:");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, -1, -1));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        loginButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                loginButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, -1, -1));
+        jPanel2.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, -1, -1));
 
-        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/login-avatar (1).png"))); // NOI18N
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        adminButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/login-avatar (1).png"))); // NOI18N
+        adminButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                adminButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 280, 40, 40));
+        jPanel2.add(adminButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 280, 40, 40));
 
         jLabel4.setFont(new java.awt.Font("Myanmar Text", 1, 12)); // NOI18N
         jLabel4.setText("ADMIN");
@@ -131,27 +131,27 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void useridTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useridTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_useridTextFieldActionPerformed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+    private void passTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    }//GEN-LAST:event_passTextFieldActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        if(jToggleButton1.isSelected()){
+    private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
+        if(adminButton.isSelected()){
             jLabel8.setVisible(true);}
         else{
             jLabel8.setVisible(false);
         }
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_adminButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String uN = jTextField1.getText();
-        char[] passwordArray = jPasswordField1.getPassword();
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        String uN = useridTextField.getText();
+        char[] passwordArray = passTextField.getPassword();
         String UP = new String(passwordArray);
-        String role = jToggleButton1.isSelected() ? "Admin" : "Sales Staff";
+        String role = adminButton.isSelected() ? "Admin" : "Sales Staff";
 
         String url = "jdbc:mysql://localhost:3306/srm_db";
         String user = "root";
@@ -203,7 +203,7 @@ public class Login extends javax.swing.JFrame {
         } catch (SQLException e) {
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,7 +241,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JToggleButton adminButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -252,8 +252,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JButton loginButton;
+    private javax.swing.JPasswordField passTextField;
+    private javax.swing.JTextField useridTextField;
     // End of variables declaration//GEN-END:variables
 }
