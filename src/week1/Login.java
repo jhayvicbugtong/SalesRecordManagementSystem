@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import week1.staffPanel;
+import week1.adminPanel;
 
 public class Login extends javax.swing.JFrame {
 
@@ -104,6 +106,7 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, -1, -1));
 
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/login-avatar (1).png"))); // NOI18N
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -114,6 +117,8 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Myanmar Text", 1, 12)); // NOI18N
         jLabel4.setText("ADMIN");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 50, 20));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/key (3).png"))); // NOI18N
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, -1, 70));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -178,13 +183,13 @@ public class Login extends javax.swing.JFrame {
             if (rs.next()) {
             JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
             this.setVisible(false);
-            // AdminDashboard adminDashboard = new AdminDashboard();
-            // adminDashboard.setVisible(true);
-                JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-                this.setVisible(false);
-                // AdminDashboard adminDashboard = new AdminDashboard();
-                // adminDashboard.setVisible(true);
-            }
+                if(role == "Admin"){
+                    adminPanel admin = new adminPanel();
+                    admin.setVisible(true);}
+                else{
+                    staffPanel staff = new staffPanel();
+                    staff.setVisible(true);}
+                }
             else {
             JOptionPane.showMessageDialog(null, "Invalid Username or Password", "ERROR", JOptionPane.INFORMATION_MESSAGE);            
             }
