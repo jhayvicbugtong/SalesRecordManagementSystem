@@ -85,7 +85,6 @@ public class adminPanel extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         roletextField = new javax.swing.JTextField();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
         jLabel18 = new javax.swing.JLabel();
         nametextField = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
@@ -289,7 +288,6 @@ public class adminPanel extends javax.swing.JFrame {
             }
         });
         jPanel5.add(roletextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 270, 150, 30));
-        jPanel5.add(jCalendar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 330, 240, 170));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setText("Name:");
@@ -442,7 +440,6 @@ public class adminPanel extends javax.swing.JFrame {
     private javaswingdev.chart.PieChart WeeklyPieChart;
     private com.raven.chart.Chart chart;
     private javax.swing.JTextField dailyRev;
-    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;

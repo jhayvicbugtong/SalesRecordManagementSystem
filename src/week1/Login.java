@@ -17,6 +17,8 @@ import week1.staffPanel;
 import week1.adminPanel;
 
 public class Login extends javax.swing.JFrame {
+    
+    private int currentUserId;
 
     /**
      * Creates new form Login
@@ -148,61 +150,75 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_adminButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        String uN = useridTextField.getText();
-        char[] passwordArray = passTextField.getPassword();
-        String UP = new String(passwordArray);
-        String role = adminButton.isSelected() ? "Admin" : "Sales Staff";
+            String uN = useridTextField.getText();
+char[] passwordArray = passTextField.getPassword();
+String UP = new String(passwordArray);
+String role = adminButton.isSelected() ? "Admin" : "Sales Staff";
 
-        String url = "jdbc:mysql://localhost:3306/srm_db";
-        String user = "root";
-        String pass = "";
+String url = "jdbc:mysql://localhost:3306/srm_db";
+String user = "root";
+String pass = "";
 
-        if ("".equals(uN)) {
-        JOptionPane.showMessageDialog(new JFrame(), "UserName is required", "Dialog", JOptionPane.ERROR_MESSAGE);
-        return;
-        }
+// Validate username and password fields
+if ("".equals(uN)) {
+    JOptionPane.showMessageDialog(new JFrame(), "UserName is required", "Dialog", JOptionPane.ERROR_MESSAGE);
+    return;
+}
 
-        if ("".equals(UP)) {
-        JOptionPane.showMessageDialog(new JFrame(), "Password is required", "Dialog", JOptionPane.ERROR_MESSAGE);    
-        return;
-        }
-        Connection con = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url, user, pass);
-            String query = "SELECT user_id FROM user WHERE PersonnelID = ? AND password = ? AND role = ?";
-            pst = con.prepareStatement(query);
-            pst.setString(1, uN);
-            pst.setString(2, UP); 
-            pst.setString(3, role);
+if ("".equals(UP)) {
+    JOptionPane.showMessageDialog(new JFrame(), "Password is required", "Dialog", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+Connection con = null;
+PreparedStatement pst = null;
+ResultSet rs = null;
+
+try {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    con = DriverManager.getConnection(url, user, pass);
     
-            rs = pst.executeQuery();
+    // SQL query to get user_id
+    String query = "SELECT user_id FROM user WHERE PersonnelID = ? AND password = ? AND role = ?";
+    pst = con.prepareStatement(query);
+    pst.setString(1, uN);
+    pst.setString(2, UP);
+    pst.setString(3, role);
 
-            if (rs.next()) {
-            JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-            this.setVisible(false);
-                if(role == "Admin"){
-                    adminPanel admin = new adminPanel();
-                    admin.setVisible(true);}
-                else{
-                    staffPanel staff = new staffPanel();
-                    staff.setVisible(true);}
-                }
-            else {
-            JOptionPane.showMessageDialog(null, "Invalid Username or Password", "ERROR", JOptionPane.INFORMATION_MESSAGE);            
-            }
-            } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-        JOptionPane.showMessageDialog(new JFrame(), "ERROR: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-            } finally {
-        try {
-            if (rs != null) rs.close();
-            if (pst != null) pst.close();
-            if (con != null) con.close();
-        } catch (SQLException e) {
-            }
+    rs = pst.executeQuery();
+
+    // Check if a result was found
+    if (rs.next()) { 
+        int userId = rs.getInt("user_id"); // Assuming the user_id is retrieved from the result set
+        currentUserId = userId; // Set the global variable
+        JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+        
+        this.setVisible(false); // Hide the login window
+
+        // Open appropriate panel based on role
+        if (role.equals("Admin")) { // Use .equals for string comparison
+            adminPanel admin = new adminPanel();
+            admin.setVisible(true);
+        } else {
+            staffPanel staff = new staffPanel();
+            staff.setVisible(true);
         }
+    } else {
+        JOptionPane.showMessageDialog(null, "Invalid Username or Password", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+    }
+} catch (HeadlessException | ClassNotFoundException | SQLException e) {
+    JOptionPane.showMessageDialog(new JFrame(), "ERROR: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+} finally {
+    try {
+        if (rs != null) rs.close();
+        if (pst != null) pst.close();
+        if (con != null) con.close();
+    } catch (SQLException e) {
+        // Handle SQL exception if closing fails
+    }
+}
+
+
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
