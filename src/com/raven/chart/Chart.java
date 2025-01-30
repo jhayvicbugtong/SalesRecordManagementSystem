@@ -24,17 +24,27 @@ public class Chart extends javax.swing.JPanel {
             }
 
             @Override
-            public void renderSeries(BlankPlotChart chart, Graphics2D g2, SeriesSize size, int index) {
-                double totalSeriesWidth = (seriesSize * legends.size()) + (seriesSpace * (legends.size() - 1));
-                double x = (size.getWidth() - totalSeriesWidth) / 2;
-                for (int i = 0; i < legends.size(); i++) {
-                    ModelLegend legend = legends.get(i);
-                    g2.setColor(legend.getColor());
-                    double seriesValues = chart.getSeriesValuesOf(model.get(index).getValues()[i], size.getHeight());
-                    g2.fillRect((int) (size.getX() + x), (int) (size.getY() + size.getHeight() - seriesValues), seriesSize, (int) seriesValues);
-                    x += seriesSpace + seriesSize;
-                }
-            }
+           public void renderSeries(BlankPlotChart chart, Graphics2D g2, SeriesSize size, int index) {
+    double totalSeriesWidth = (seriesSize * legends.size()) + (seriesSpace * (legends.size() - 1));
+    double x = (size.getWidth() - totalSeriesWidth) / 2;
+    for (int i = 0; i < legends.size(); i++) {
+        ModelLegend legend = legends.get(i);
+        g2.setColor(legend.getColor());
+        
+        // Ensure the array has enough values before accessing index i
+        double[] values = model.get(index).getValues();
+        if (i < values.length) {
+            double seriesValues = chart.getSeriesValuesOf(values[i], size.getHeight());
+            g2.fillRect((int) (size.getX() + x), (int) (size.getY() + size.getHeight() - seriesValues), seriesSize, (int) seriesValues);
+        } else {
+            // Handle the case when the array has fewer values than expected
+            System.out.println("Error: Insufficient data in values array for index " + i);
+        }
+        
+        x += seriesSpace + seriesSize;
+    }
+}
+
         });
     }
 
