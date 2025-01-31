@@ -310,6 +310,11 @@ public class staffPanel extends javax.swing.JFrame {
         });
 
         stocks.setEditable(false);
+        stocks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stocksActionPerformed(evt);
+            }
+        });
 
         addButton.setText("ADD");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -737,6 +742,12 @@ public class staffPanel extends javax.swing.JFrame {
             pst = conn.prepareStatement(searchSql);
             pst.setInt(1, Integer.parseInt(product));
             
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                String stock = rs.getString("product_name");
+                productName1.setText(stock);
+            }
+            
             String productstock = "SELECT stock FROM product WHERE product_id = ?";
             pst = conn.prepareStatement(productstock);
             pst.setInt(1, Integer.parseInt(product));
@@ -746,8 +757,6 @@ public class staffPanel extends javax.swing.JFrame {
             if (rs.next()) {
                 String stock = rs.getString("stock");
                 stocks.setText(stock);
-            }else{
-            productName1.setText("");
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -766,6 +775,10 @@ public class staffPanel extends javax.swing.JFrame {
     private void reloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadButtonActionPerformed
               fetchAndDisplaySalesRecords();
     }//GEN-LAST:event_reloadButtonActionPerformed
+
+    private void stocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stocksActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stocksActionPerformed
 
     /**
      * @param args the command line arguments
