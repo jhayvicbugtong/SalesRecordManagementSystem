@@ -127,13 +127,11 @@ public class staffPanel extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         salesrecordTable = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         productId = new javax.swing.JTextField();
         quantities = new javax.swing.JTextField();
-        txtDate = new javax.swing.JTextField();
-        txtSales = new javax.swing.JTextField();
+        stocks = new javax.swing.JTextField();
         addButton = new javax.swing.JButton();
         productName1 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -290,9 +288,7 @@ public class staffPanel extends javax.swing.JFrame {
 
         jLabel6.setText("Product ID:");
 
-        jLabel7.setText("Date:");
-
-        jLabel8.setText("Total Sales:");
+        jLabel8.setText("Stocks Left:");
 
         jLabel9.setText("Quantity:");
 
@@ -312,6 +308,8 @@ public class staffPanel extends javax.swing.JFrame {
                 quantitiesActionPerformed(evt);
             }
         });
+
+        stocks.setEditable(false);
 
         addButton.setText("ADD");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -340,27 +338,25 @@ public class staffPanel extends javax.swing.JFrame {
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(48, 48, 48)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(productId, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(31, 31, 31)
+                                        .addComponent(stocks, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(31, 31, 31)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(quantities, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(productId, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(31, 31, 31)
-                                    .addComponent(txtSales, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(productName1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(productName1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(quantities, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(15, 15, 15)
                         .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -379,25 +375,24 @@ public class staffPanel extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(productId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(15, 15, 15)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(productName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(quantities, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(quantities, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(txtSales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(stocks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(25, 25, 25))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
         );
@@ -579,10 +574,8 @@ public class staffPanel extends javax.swing.JFrame {
     String product = productId.getText();
     String name = productName1.getText();
     String quantity = quantities.getText();
-    String date = txtDate.getText();
-    String total = txtSales.getText();
     
-    if (product.isEmpty() || name.isEmpty() || quantity.isEmpty() || date.isEmpty() || total.isEmpty()) {
+    if (product.isEmpty() || name.isEmpty() || quantity.isEmpty()) {
         JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -591,7 +584,9 @@ public class staffPanel extends javax.swing.JFrame {
     String url = "jdbc:mysql://localhost:3306/srm_db"; // Ensure database name is correct
     String user = "root";
     String pass = "";
-
+    int price = getPrice(Integer.parseInt(product));
+    int quant = Integer.parseInt(quantity);
+    int total = quant * price;
     Connection conn = null;
     PreparedStatement pst = null;
 
@@ -600,14 +595,13 @@ public class staffPanel extends javax.swing.JFrame {
         conn = DriverManager.getConnection(url, user, pass);
 
         // SQL query to insert new sales record
-        String insertSalesSql = "INSERT INTO sales (user_id, product_id, quantity, sales_date, total_price) VALUES (?, ?, ?, ?, ?)";
+        String insertSalesSql = "INSERT INTO sales (user_id, product_id, quantity, sales_date, total_price) VALUES (?, ?, ?, CURDATE, ?)";
         pst = conn.prepareStatement(insertSalesSql);
 
         pst.setInt(1, currentUserId); 
         pst.setInt(2, Integer.parseInt(product));
-        pst.setInt(3, Integer.parseInt(quantity));
-        pst.setDate(4, java.sql.Date.valueOf(date));
-        pst.setDouble(5, Double.parseDouble(total));
+        pst.setInt(3, quant);
+        pst.setInt(3, total);
 
         int rowsInserted = pst.executeUpdate();
 
@@ -635,6 +629,29 @@ public class staffPanel extends javax.swing.JFrame {
         }
     }
     }//GEN-LAST:event_addButtonActionPerformed
+
+    public int getPrice(int productId) {
+        String DB_URL = "jdbc:mysql://localhost:3306/srm_db";
+        String DB_USER = "root";
+        String DB_PASSWORD = "";
+        String query = "SELECT price FROM product WHERE product_id = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setInt(1, productId);  // Set the productId parameter
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("price");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;  // Return -1 if no price was found (or handle it as needed)
+    }
 
     private void refreshSalesTable() {
     DefaultTableModel model = (DefaultTableModel) salesrecordTable.getModel();
@@ -719,12 +736,16 @@ public class staffPanel extends javax.swing.JFrame {
             String searchSql = "SELECT product_name FROM product WHERE product_id = ?";
             pst = conn.prepareStatement(searchSql);
             pst.setInt(1, Integer.parseInt(product));
+            
+            String productstock = "SELECT stock FROM product WHERE product_id = ?";
+            pst = conn.prepareStatement(productstock);
+            pst.setInt(1, Integer.parseInt(product));
 
             rs = pst.executeQuery();
 
             if (rs.next()) {
-                String productName = rs.getString("product_name");
-                productName1.setText(productName);
+                String stock = rs.getString("stock");
+                stocks.setText(stock);
             }else{
             productName1.setText("");
             }
@@ -790,7 +811,6 @@ public class staffPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -811,7 +831,6 @@ public class staffPanel extends javax.swing.JFrame {
     private javax.swing.JButton reloadButton;
     private javax.swing.JTable salesrecordTable;
     private javax.swing.JTable staffSalesTable;
-    private javax.swing.JTextField txtDate;
-    private javax.swing.JTextField txtSales;
+    private javax.swing.JTextField stocks;
     // End of variables declaration//GEN-END:variables
 }
