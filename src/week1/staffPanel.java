@@ -260,6 +260,7 @@ public class staffPanel extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextArea1);
         jTextArea1.setVisible(false);
 
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/user-icons (1) (1).png"))); // NOI18N
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -284,6 +285,7 @@ public class staffPanel extends javax.swing.JFrame {
                 "Product Name", "Quantity", "Date", "Total Sales Amount"
             }
         ));
+        fetchAndDisplayDailySalesRecords();
         jScrollPane3.setViewportView(salesrecordTable);
 
         jLabel6.setText("Product ID:");
@@ -515,8 +517,63 @@ public class staffPanel extends javax.swing.JFrame {
         }
     }
 }
+   private void fetchAndDisplayDailySalesRecords() {
+    // Database connection parameters
+    String url = "jdbc:mysql://localhost:3306/srm_db";
+    String user = "root";
+    String pass = "";
 
+    Connection conn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
 
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection(url, user, pass);
+
+        // SQL query to fetch sales records for the current user
+        String fetchDSalesSql = "SELECT p.product_name AS 'Product Name', " +
+                       "s.quantity AS 'Quantity', " +
+                       "s.sales_date AS 'Date', " +
+                       "s.total_price AS 'Total Sales Amount' " +
+                       "FROM sales s " +
+                       "JOIN product p ON s.product_id = p.product_id " +
+                       "WHERE s.user_id = ? AND s.sales_date = CURDATE()";
+        pst = conn.prepareStatement(fetchDSalesSql);
+        pst.setInt(1, currentUserId); // Set the current user ID
+
+        rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) salesrecordTable.getModel();
+        model.setRowCount(0); // Clear the existing rows
+
+        // Populate the JTable with fetched data
+        while (rs.next()) {
+            String productName = rs.getString("Product Name");
+            int quantity = rs.getInt("Quantity");
+            String salesDate = rs.getString("Date");
+            double totalPrice = rs.getDouble("Total Sales Amount");
+
+            // Add row to the table model
+            model.addRow(new Object[]{productName, quantity, salesDate, totalPrice});
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Driver not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (pst != null) pst.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+   }
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 
     String product = productId.getText();
