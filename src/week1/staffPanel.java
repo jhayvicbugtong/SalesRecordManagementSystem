@@ -159,6 +159,11 @@ public class staffPanel extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel2.setText("Total Daily Sale/s:");
@@ -600,7 +605,7 @@ public class staffPanel extends javax.swing.JFrame {
         conn = DriverManager.getConnection(url, user, pass);
 
         // SQL query to insert new sales record
-        String insertSalesSql = "INSERT INTO sales (user_id, product_id, quantity, sales_date, total_price) VALUES (?, ?, ?, CURDATE, ?)";
+        String insertSalesSql = "INSERT INTO sales (user_id, product_id, quantity, sales_date, total_price) VALUES (?, ?, ?, CURDATE(), ?)";
         pst = conn.prepareStatement(insertSalesSql);
 
         pst.setInt(1, currentUserId); 
@@ -611,10 +616,12 @@ public class staffPanel extends javax.swing.JFrame {
         int rowsInserted = pst.executeUpdate();
 
         if (rowsInserted > 0) {
+            quantities.setText("");
+            productId.setText("");
+            productName1.setText("");
+            stocks.setText("");
             JOptionPane.showMessageDialog(this, "Sales record added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            // Refresh the table to show the new record
-            refreshSalesTable();
+            fetchAndDisplayDailySalesRecords();
         } else {
             JOptionPane.showMessageDialog(this, "Failed to add sales record.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -658,56 +665,7 @@ public class staffPanel extends javax.swing.JFrame {
         return -1;  // Return -1 if no price was found (or handle it as needed)
     }
 
-    private void refreshSalesTable() {
-    DefaultTableModel model = (DefaultTableModel) salesrecordTable.getModel();
-    model.setRowCount(0); 
-
-    String url = "jdbc:mysql://localhost:3306/srm_db";
-    String user = "root";
-    String pass = "";
-
-    Connection conn = null;
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-
-    try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection(url, user, pass);
-
-        // Fetch the latest sales records
-        String fetchSalesSql = "SELECT sales_id, product_id, quantity, sales_date, total_price FROM sales";
-        pst = conn.prepareStatement(fetchSalesSql);
-        rs = pst.executeQuery();
-
-        // Populate the JTable with fresh data
-        while (rs.next()) {
-            int salesId = rs.getInt("sales_id");
-            int productId = rs.getInt("product_id");
-            int quantity = rs.getInt("quantity");
-            String salesDate = rs.getString("sales_date");
-            double totalPrice = rs.getDouble("total_price");
-
-            // Add row to the table model
-            model.addRow(new Object[]{salesId, productId, quantity, salesDate, totalPrice});
-        }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error loading sales records: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Driver not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (rs != null) rs.close();
-            if (pst != null) pst.close();
-            if (conn != null) conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-}
-
+   
     private void quantitiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantitiesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_quantitiesActionPerformed
@@ -725,6 +683,7 @@ public class staffPanel extends javax.swing.JFrame {
         String product = productId.getText();
         if(product.isEmpty()){
             productName1.setText("");
+            stocks.setText("");
             return;
         }
         String url = "jdbc:mysql://localhost:3306/srm_db";
@@ -780,6 +739,11 @@ public class staffPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_stocksActionPerformed
 
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+
+    }//GEN-LAST:event_jTextField1KeyReleased
+    
+    
     /**
      * @param args the command line arguments
      */

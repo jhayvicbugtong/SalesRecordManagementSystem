@@ -822,6 +822,7 @@ public class adminPanel extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Add Employees", jPanel5);
 
+        inventoryTable.setAutoCreateRowSorter(true);
         inventoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
