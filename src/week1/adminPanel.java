@@ -45,6 +45,7 @@ public class adminPanel extends javax.swing.JFrame {
         pieChartOne();
         pieChartTwo();
         dashboard();
+        InventoryTable();
     }
     void dashboard(){
         getDailyRevenue();
@@ -514,20 +515,14 @@ public class adminPanel extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         inventoryTable = new javax.swing.JTable();
-        jLabel19 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         txtProductName = new javax.swing.JTextField();
         txtStock = new javax.swing.JTextField();
-        txtPrice = new javax.swing.JTextField();
-        categoryBox = new javax.swing.JComboBox<>();
         addButton = new javax.swing.JButton();
-        confrimEdit = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         txtProductID = new javax.swing.JTextField();
-        jLabel28 = new javax.swing.JLabel();
-        deptBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         jTextField4.setText("jTextField4");
@@ -856,7 +851,7 @@ public class adminPanel extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Product Name", "Category", "Price", "Stock"
+                "Product ID", "Product Name", "Price", "Stock"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -875,13 +870,9 @@ public class adminPanel extends javax.swing.JFrame {
             inventoryTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        jLabel19.setText("Category:");
-
         jLabel21.setText("Product Name:");
 
-        jLabel22.setText("Price:");
-
-        jLabel23.setText("Stock:");
+        jLabel23.setText("Stock Count");
 
         txtProductName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -889,24 +880,12 @@ public class adminPanel extends javax.swing.JFrame {
             }
         });
 
-        categoryBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fruits", "Dairy", "Tools", "Hygiene", "Grains", "Consumables", "Cleaning", "Gardening" }));
-        categoryBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoryBoxActionPerformed(evt);
-            }
-        });
+        txtStock.setText("0");
 
-        addButton.setText("ADD");
+        addButton.setText("UPDATE");
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
-            }
-        });
-
-        confrimEdit.setText("CONFIRM EDIT");
-        confrimEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confrimEditActionPerformed(evt);
             }
         });
 
@@ -923,12 +902,10 @@ public class adminPanel extends javax.swing.JFrame {
             }
         });
 
-        jLabel28.setText("Department:");
-
-        deptBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Home Improvement", "Grocery", "Dry Goods" }));
-        deptBox1.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Add Stock", "Reduce Stock" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deptBox1ActionPerformed(evt);
+                jComboBox1ActionPerformed(evt);
             }
         });
 
@@ -948,31 +925,17 @@ public class adminPanel extends javax.swing.JFrame {
                                 .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtProductID, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(categoryBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(confrimEdit)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(addButton))
+                                .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(deptBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtProductName))))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -984,31 +947,19 @@ public class adminPanel extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
                     .addComponent(txtProductID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(categoryBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel28)
-                    .addComponent(deptBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addButton)
-                    .addComponent(confrimEdit))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(addButton)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Inventory", jPanel3);
@@ -1079,22 +1030,16 @@ public class adminPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_monthSpinnerPropertyChange
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-    int deptID;
     String product = txtProductID.getText();
     String productname = txtProductName.getText();
-    String category = categoryBox.getSelectedItem().toString();
-    String role = roleBox.getSelectedItem().toString();
     String stock = txtStock.getText();
-    String dept = (String) deptBox1.getSelectedItem();
-    if("Dry Goods".equals(dept)){
-            deptID = 1;
-        }else if("Home Improvement".equals(dept)){
-            deptID = 2;
-        }else{
-            deptID = 3;
-        }
-    if (productname.isEmpty() || category.isEmpty() || role.isEmpty() || stock.isEmpty()) {
+    if (productname.isEmpty() || stock.isEmpty()) {
         JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    int Stock = Integer.parseInt(stock);
+    if (Stock < 0) {
+        JOptionPane.showMessageDialog(this, "No negative numbers.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
@@ -1102,33 +1047,29 @@ public class adminPanel extends javax.swing.JFrame {
     String url = "jdbc:mysql://localhost:3306/srm_db"; // Ensure database name is correct
     String user = "root";
     String pass = "";
-
+    String selected = (String) jComboBox1.getSelectedItem();
     Connection conn = null;
     PreparedStatement pst = null;
 
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = DriverManager.getConnection(url, user, pass);
-
+        String insertProductSql;
         // SQL query to insert new product record
-        String insertProductSql = "INSERT INTO product (product_id, product_name, category, price, stock, DepartmentID) VALUES (?, ?, ?, ?, ?, ?)";
+        if("Add Stock".equals(selected)){
+        insertProductSql = "UPDATE product SET stock = stock + ? WHERE product_id = ?";}
+        else{
+        insertProductSql = "UPDATE product SET stock = stock - ? WHERE product_id = ?";}    
         pst = conn.prepareStatement(insertProductSql);
 
         // Setting values in the prepared statement
-        pst.setInt(1, Integer.parseInt(product));
-        pst.setString(2, productname);
-        pst.setString(3, category);
-        pst.setString(4, role); 
-        pst.setInt(5, Integer.parseInt(stock)); 
-        pst.setInt(6, deptID);
+        pst.setInt(2, Integer.parseInt(product));
+        pst.setInt(1, Integer.parseInt(stock)); 
 
         int rowsInserted = pst.executeUpdate();
 
         if (rowsInserted > 0) {
             JOptionPane.showMessageDialog(this, "Product added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            // Refresh the table to show the new record
-            refreshInventoryTable();
         } else {
             JOptionPane.showMessageDialog(this, "Failed to add product.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -1149,7 +1090,7 @@ public class adminPanel extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void refreshInventoryTable() {
+    private void InventoryTable() {
     DefaultTableModel model = (DefaultTableModel) inventoryTable.getModel();
     model.setRowCount(0); // Clear existing rows
 
@@ -1158,21 +1099,20 @@ public class adminPanel extends javax.swing.JFrame {
     String pass = "";
 
     try (Connection conn = DriverManager.getConnection(url, user, pass);
-         PreparedStatement pst = conn.prepareStatement("SELECT sales_id, product_name, quantity, sales_date, total_price FROM sales");
+         PreparedStatement pst = conn.prepareStatement("SELECT product_id, product_name, price, stock FROM product");
          ResultSet rs = pst.executeQuery()) {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         // Populate the JTable with fresh data
         while (rs.next()) {
-            int salesId = rs.getInt("sales_id");
+            int salesId = rs.getInt("product_id");
             String productName = rs.getString("product_name");
-            int quantity = rs.getInt("quantity");
-            Date salesDate = rs.getDate("sales_date"); // Correctly retrieving date
-            double totalPrice = rs.getDouble("total_price");
+            int price = rs.getInt("price");
+            int stock = rs.getInt("stock");
 
             // Add row to the table model
-            model.addRow(new Object[]{salesId, productName, quantity, salesDate, totalPrice});
+            model.addRow(new Object[]{salesId, productName, price, stock});
         }
 
     } catch (SQLException e) {
@@ -1182,17 +1122,9 @@ public class adminPanel extends javax.swing.JFrame {
     }
 }
 
-    private void categoryBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_categoryBoxActionPerformed
-
     private void txtProductNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtProductNameActionPerformed
-
-    private void confrimEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confrimEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_confrimEditActionPerformed
 
     private void txtProductIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductIDActionPerformed
         // TODO add your handling code here:
@@ -1349,7 +1281,7 @@ public class adminPanel extends javax.swing.JFrame {
         int year = (int) yearSpinner.getValue();
         int month = (int) monthSpinner.getValue();
         int day = (int) daySpinner.getValue();
-        String url = "jdbc:mysql://localhost:3306/srm_db"; // Ensure database name is correct
+        String url = "jdbc:mysql://localhost:3306/srm_db";
         String user = "root";
         String pass = "";
         String birthdate = String.format("%04d-%02d-%02d", year, month, day);
@@ -1373,9 +1305,9 @@ public class adminPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dailyRevActionPerformed
 
-    private void deptBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deptBox1ActionPerformed
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deptBox1ActionPerformed
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     public static String generatePersonnelID(Connection conn, String birthdate) {
         String formattedDate = formatBirthdate(birthdate);
@@ -1451,15 +1383,13 @@ public class adminPanel extends javax.swing.JFrame {
     private javaswingdev.chart.PieChart WeeklyPieChart;
     private javax.swing.JButton addButton;
     private javax.swing.JButton addEmployee;
-    private javax.swing.JComboBox<String> categoryBox;
     private com.raven.chart.Chart chart;
-    private javax.swing.JButton confrimEdit;
     private javax.swing.JTextField dailyRev;
     private javax.swing.JSpinner daySpinner;
     private javax.swing.JComboBox<String> deptBox;
-    private javax.swing.JComboBox<String> deptBox1;
     private javax.swing.JTable inventoryTable;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1470,17 +1400,14 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1504,7 +1431,6 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPass;
-    private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtStock;
