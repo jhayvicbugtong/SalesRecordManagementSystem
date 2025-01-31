@@ -614,6 +614,13 @@ public class staffPanel extends javax.swing.JFrame {
         pst.setInt(4, total);
 
         int rowsInserted = pst.executeUpdate();
+        
+        String insertProductSql;
+        insertProductSql = "UPDATE product SET stock = stock - ? WHERE product_id = ?"; 
+        pst = conn.prepareStatement(insertProductSql);
+        pst.setInt(2, Integer.parseInt(product));
+        pst.setInt(1, quant); 
+        pst.executeUpdate();
 
         if (rowsInserted > 0) {
             quantities.setText("");
@@ -625,6 +632,8 @@ public class staffPanel extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Failed to add sales record.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
+        
 
     } catch (SQLException e) {
         e.printStackTrace();
