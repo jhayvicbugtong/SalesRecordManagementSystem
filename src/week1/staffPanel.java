@@ -606,7 +606,7 @@ public class staffPanel extends javax.swing.JFrame {
         pst.setInt(1, currentUserId); 
         pst.setInt(2, Integer.parseInt(product));
         pst.setInt(3, quant);
-        pst.setInt(3, total);
+        pst.setInt(4, total);
 
         int rowsInserted = pst.executeUpdate();
 

@@ -1070,6 +1070,7 @@ public class adminPanel extends javax.swing.JFrame {
 
         if (rowsInserted > 0) {
             JOptionPane.showMessageDialog(this, "Product added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            InventoryTable();
         } else {
             JOptionPane.showMessageDialog(this, "Failed to add product.", "Error", JOptionPane.ERROR_MESSAGE);
         }
