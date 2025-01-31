@@ -347,6 +347,9 @@ public class adminPanel extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         DeptchoiceBox = new java.awt.Choice();
+        yearSpinner = new javax.swing.JSpinner(new SpinnerNumberModel(2000, 1950, 2025, 1));
+        monthSpinner = new javax.swing.JSpinner(new SpinnerNumberModel(01, 01, 12, 1));
+        daySpinner = new javax.swing.JSpinner(new SpinnerNumberModel(1,1,31,1));
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -567,6 +570,15 @@ public class adminPanel extends javax.swing.JFrame {
 
         DeptchoiceBox.setPreferredSize(new java.awt.Dimension(32, 25));
         jPanel5.add(DeptchoiceBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, 150, 40));
+        jPanel5.add(yearSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 340, -1, -1));
+
+        monthSpinner.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                monthSpinnerPropertyChange(evt);
+            }
+        });
+        jPanel5.add(monthSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, -1, -1));
+        jPanel5.add(daySpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, -1, -1));
 
         jTabbedPane1.addTab("Add Employees", jPanel5);
 
@@ -656,6 +668,21 @@ public class adminPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_roletextFieldActionPerformed
 
+    private void monthSpinnerPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_monthSpinnerPropertyChange
+        int selectedMonth = (int) monthSpinner.getValue();
+        int year = (int) yearSpinner.getValue();
+        boolean isLeapYear = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+        SpinnerNumberModel dateModel = (SpinnerNumberModel) daySpinner.getModel();
+
+        if (selectedMonth == 1 || selectedMonth == 3 || selectedMonth == 5 || selectedMonth == 7 || selectedMonth == 8 || selectedMonth == 10 || selectedMonth == 12) {
+            dateModel.setMaximum(31);
+        } else if (selectedMonth == 2) {
+            dateModel.setMaximum(isLeapYear ? 29 : 28);
+        } else {
+            dateModel.setMaximum(30);
+        }
+    }//GEN-LAST:event_monthSpinnerPropertyChange
+
     /**
      * @param args the command line arguments
      */
@@ -701,6 +728,7 @@ public class adminPanel extends javax.swing.JFrame {
     private javaswingdev.chart.PieChart WeeklyPieChart;
     private com.raven.chart.Chart chart;
     private javax.swing.JTextField dailyRev;
+    private javax.swing.JSpinner daySpinner;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -725,6 +753,7 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JSpinner monthSpinner;
     private javax.swing.JTextField nametextField;
     private javax.swing.JTextField roletextField;
     private javax.swing.JLabel topDryG;
@@ -732,5 +761,6 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JLabel topHomeImp;
     private javax.swing.JTextField totalRev;
     private javax.swing.JTextField weeklyRev;
+    private javax.swing.JSpinner yearSpinner;
     // End of variables declaration//GEN-END:variables
 }
