@@ -1322,7 +1322,37 @@ public class adminPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+    int selectedRow = inventoryTable.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a product to create a notification.", 
+                                      "No Row Selected", JOptionPane.WARNING_MESSAGE);
+    } else {
+        int productId = (int) inventoryTable.getValueAt(selectedRow, 0);
+
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+
+        String query = "INSERT INTO notification (product_id) VALUES (?);";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setInt(1, productId);
+            int rowsAffected = pst.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Notification created for product ID: " + productId, 
+                                              "Notification Added", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error inserting notification: " + e.getMessage(),
+                                          "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static String generatePersonnelID(Connection conn, String birthdate) {

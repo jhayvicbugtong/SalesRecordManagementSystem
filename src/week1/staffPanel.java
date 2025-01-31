@@ -24,6 +24,7 @@ public class staffPanel extends javax.swing.JFrame {
         currentUserId = id;
         initComponents();
         setInfo(id);
+        displayProductStockWarning();
     }
 
     void setInfo(int userID) {
@@ -101,6 +102,34 @@ public class staffPanel extends javax.swing.JFrame {
             }
         }
     }
+    public void displayProductStockWarning() {
+        String DB_URL = "jdbc:mysql://localhost:3306/srm_db";
+        String DB_USER = "root";
+        String DB_PASSWORD = "";
+
+        String query = "SELECT CONCAT('Warning: The product ', p.product_name, ' has only ', p.stock, ' units remaining.') AS Product_Stock_Warning " +
+                       "FROM product p JOIN notification n ON n.product_id = p.product_id;";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pst = conn.prepareStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+
+            StringBuilder notificationMessage = new StringBuilder();
+
+            while (rs.next()) {
+                notificationMessage.append(rs.getString("Product_Stock_Warning")).append("\n");
+            }
+
+            jTextArea1.setText(notificationMessage.toString());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching product stock warnings: " + e.getMessage(), 
+                                          "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
 
     
     @SuppressWarnings("unchecked")
