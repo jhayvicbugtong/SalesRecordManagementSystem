@@ -190,7 +190,6 @@ try {
     // Check if a result was found
     if (rs.next()) { 
         int userId = rs.getInt("user_id"); // Assuming the user_id is retrieved from the result set
-        currentUserId = userId; // Set the global variable
         JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
         
         this.setVisible(false); // Hide the login window
@@ -200,7 +199,7 @@ try {
             adminPanel admin = new adminPanel();
             admin.setVisible(true);
         } else {
-            staffPanel staff = new staffPanel();
+            staffPanel staff = new staffPanel(userId);
             staff.setVisible(true);
         }
     } else {
