@@ -6,8 +6,24 @@ package week1;
 
 import com.raven.chart.ModelChart;
 import java.awt.Color;
+import java.sql.DriverManager;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javaswingdev.chart.ModelPieChart;
 import javaswingdev.chart.PieChart;
+import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -17,42 +33,283 @@ public class adminPanel extends javax.swing.JFrame {
 
     /**
      * Creates new form adminPanel
+     * @throws java.lang.ClassNotFoundException
      */
-    public adminPanel() {
+    public adminPanel() throws ClassNotFoundException {
         initComponents();
         chart();
         pieChartOne();
         pieChartTwo();
     }
 
-    final void pieChartOne(){
+    final void pieChartOne() throws ClassNotFoundException {
+        List<SaleData> dailySalesData = fetchDailySalesDataFromDatabase();
+        Map<String, Integer> departmentSales = new HashMap<>();
+
+        for (SaleData sale : dailySalesData) {
+            String departmentName = sale.getDepartmentName();
+            int quantitySold = sale.getQuantity();
+            departmentSales.put(departmentName, departmentSales.getOrDefault(departmentName, 0) + quantitySold);
+        }
+
+        for (Map.Entry<String, Integer> entry : departmentSales.entrySet()) {
+            String departmentName = entry.getKey();
+            int quantitySold = entry.getValue();
+            Color color;
+
+            switch (departmentName) {
+                case "Dry Goods":
+                    color = new Color(23, 126, 238);
+                    break;
+                case "Home Improvement":
+                    color = new Color(221, 65, 65);
+                    break;
+                case "Grocery":
+                    color = new Color(47, 157, 64);
+                    break;
+                default:
+                    color = new Color(196, 151, 58);
+                    break;
+            }
+
+            DailyPieChart.addData(new ModelPieChart(departmentName, quantitySold, color));
+        }
+
         DailyPieChart.setChartType(PieChart.PeiChartType.DONUT_CHART);
-        DailyPieChart.addData(new ModelPieChart("Tigher", 150, new Color(23, 126, 238)));
-        DailyPieChart.addData(new ModelPieChart("ABC", 100, new Color(221, 65, 65)));
-        DailyPieChart.addData(new ModelPieChart("Coca", 1, new Color(47, 157, 64)));
-        DailyPieChart.addData(new ModelPieChart("Vita", 60, new Color(196, 151, 58)));
     }
+
+    private List<SaleData> fetchDailySalesDataFromDatabase() throws ClassNotFoundException {
+        List<SaleData> dailySalesData = new ArrayList<>();
+        String sql = "SELECT s.sales_date, s.quantity, d.DepartmentName " +
+                     "FROM sales s " +
+                     "JOIN product p ON s.product_id = p.product_id " +
+                     "JOIN department d ON p.DepartmentID = d.DepartmentID " +
+                     "WHERE DATE(s.sales_date) = CURDATE()";
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, user, pass);
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Date salesDate = rs.getDate("sales_date");
+                int quantity = rs.getInt("quantity");
+                String departmentName = rs.getString("DepartmentName");
+                dailySalesData.add(new SaleData(salesDate, quantity, departmentName));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pst != null) pst.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return dailySalesData;
+    }
+
     
-    final void pieChartTwo(){
+    final void pieChartTwo() throws ClassNotFoundException {
+        List<SaleData> weeklySalesData = fetchWeeklySalesDataFromDatabase();
+        Map<String, Integer> departmentSales = new HashMap<>();
+
+        for (SaleData sale : weeklySalesData) {
+            String departmentName = sale.getDepartmentName();
+            int quantitySold = sale.getQuantity();
+            departmentSales.put(departmentName, departmentSales.getOrDefault(departmentName, 0) + quantitySold);
+        }
+
+        for (Map.Entry<String, Integer> entry : departmentSales.entrySet()) {
+            String departmentName = entry.getKey();
+            int quantitySold = entry.getValue();
+            Color color;
+            switch (departmentName) {
+                case "Dry Goods":
+                    color = new Color(23, 126, 238);
+                    break;
+                case "Home Improvement":
+                    color = new Color(221, 65, 65);
+                    break;
+                case "Grocery":
+                    color = new Color(47, 157, 64);
+                    break;
+                default:
+                    continue;
+            }
+            WeeklyPieChart.addData(new ModelPieChart(departmentName, quantitySold, color));
+        }
+
         WeeklyPieChart.setChartType(PieChart.PeiChartType.DONUT_CHART);
-        WeeklyPieChart.addData(new ModelPieChart("Tigher", 150, new Color(23, 126, 238)));
-        WeeklyPieChart.addData(new ModelPieChart("ABC", 100, new Color(221, 65, 65)));
-        WeeklyPieChart.addData(new ModelPieChart("Coca", 1, new Color(47, 157, 64)));
-        WeeklyPieChart.addData(new ModelPieChart("Vita", 60, new Color(196, 151, 58)));
     }
     
-    
-    private void chart(){
-        chart.addLegend("Income", new Color(245, 189, 135));
-        chart.addLegend("Expense", new Color(135, 189, 245));
-        chart.addLegend("Profit", new Color(189, 135, 245));
-        chart.addLegend("Cost", new Color(139, 229, 222));
-        chart.addData(new ModelChart("January", new double[]{500, 200, 80,89}));
-        chart.addData(new ModelChart("February", new double[]{600, 750, 90,150}));
-        chart.addData(new ModelChart("March", new double[]{200, 350, 460,900}));
-        chart.addData(new ModelChart("April", new double[]{480, 150, 750,700}));
-        chart.addData(new ModelChart("May", new double[]{350, 540, 300,150}));
-        chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
+    private List<SaleData> fetchWeeklySalesDataFromDatabase() throws ClassNotFoundException {
+        List<SaleData> weeklySalesData = new ArrayList<>();
+        String sql = "SELECT s.sales_date, s.quantity, d.DepartmentName " +
+                     "FROM sales s " +
+                     "JOIN product p ON s.product_id = p.product_id " +
+                     "JOIN department d ON p.DepartmentID = d.DepartmentID " +
+                     "WHERE WEEK(s.sales_date) = WEEK(CURDATE()) AND YEAR(s.sales_date) = YEAR(CURDATE())";
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, user, pass);
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Date salesDate = rs.getDate("sales_date");
+                int quantity = rs.getInt("quantity");
+                String departmentName = rs.getString("DepartmentName");
+                weeklySalesData.add(new SaleData(salesDate, quantity, departmentName));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pst != null) pst.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return weeklySalesData;
+    }
+
+
+    private void chart() throws ClassNotFoundException {
+        List<SaleData> salesData = fetchSalesDataFromDatabase();
+        Map<String, double[]> monthlyData = new HashMap<>(); // Map to store monthly data
+
+        // Populate the data for each month
+        for (SaleData sale : salesData) {
+            String month = getMonthFromDate(sale.getSalesDate());
+            String departmentName = sale.getDepartmentName();
+
+            // Initialize the monthly data if not already present
+            if (!monthlyData.containsKey(month)) {
+                monthlyData.put(month, new double[4]); // Assuming 4 departments: Dry Goods, Home Improvement, Grocery, All
+            }
+
+            double[] data = monthlyData.get(month);
+
+            // Based on the department, increment the corresponding value
+            if ("Dry Goods".equals(departmentName)) {
+                data[0] += sale.getQuantity();
+            } else if ("Home Improvement".equals(departmentName)) {
+                data[1] += sale.getQuantity();
+            } else if ("Grocery".equals(departmentName)) {
+                data[2] += sale.getQuantity();
+            }
+
+            // Add the total quantity sold to "All" category
+            data[3] += sale.getQuantity();
+        }
+
+        // Add data for each month to the chart
+        for (Map.Entry<String, double[]> entry : monthlyData.entrySet()) {
+            String month = entry.getKey();
+            double[] data = entry.getValue();
+            chart.addData(new ModelChart(month, data)); // Using the month as the label
+        }
+
+        // Add legends for departments
+        chart.addLegend("Dry Goods", new Color(245, 189, 135));
+        chart.addLegend("Home Improvement", new Color(135, 189, 245));
+        chart.addLegend("Grocery", new Color(189, 135, 245));
+        chart.addLegend("All", new Color(139, 229, 222));
+    }
+
+    private String getMonthFromDate(Date salesDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");  // Format as full month name (e.g., January)
+        return sdf.format(salesDate);
+    }
+
+    class SaleData {
+        private Date salesDate;
+        private int quantity;
+        private String departmentName;
+
+        public SaleData(Date salesDate, int quantity, String departmentName) {
+            this.salesDate = salesDate;
+            this.quantity = quantity;
+            this.departmentName = departmentName;
+        }
+
+        public Date getSalesDate() {
+            return salesDate;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public String getDepartmentName() {
+            return departmentName;
+        }
+    }
+
+    private List<SaleData> fetchSalesDataFromDatabase() throws ClassNotFoundException {
+        List<SaleData> salesData = new ArrayList<>();
+        String sql = "SELECT s.sales_date, s.quantity, d.DepartmentName " +
+                     "FROM sales s " +
+                     "JOIN product p ON s.product_id = p.product_id " +
+                     "JOIN department d ON p.DepartmentID = d.DepartmentID";
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, user, pass);
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Date salesDate = rs.getDate("sales_date");
+                int quantity = rs.getInt("quantity");
+                String departmentName = rs.getString("DepartmentName");
+                salesData.add(new SaleData(salesDate, quantity, departmentName));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return salesData;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -429,7 +686,11 @@ public class adminPanel extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new adminPanel().setVisible(true);
+                try {
+                    new adminPanel().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(adminPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
