@@ -1,13 +1,16 @@
 
 package week1;
 
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -138,6 +141,7 @@ public class staffPanel extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        staffSalesTable.setAutoCreateRowSorter(true);
         staffSalesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -146,9 +150,10 @@ public class staffPanel extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Sales ID", "Product ID", "Quantity", "Sales Date", "Total Sales"
+                "Product Name", "Quantity", "Sales Date", "Total Sales"
             }
         ));
+        fetchAndDisplaySalesRecords();
         jScrollPane1.setViewportView(staffSalesTable);
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -160,6 +165,7 @@ public class staffPanel extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel2.setText("Total Daily Sale/s:");
 
+        jTextField2.setEditable(false);
         jTextField2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,6 +173,7 @@ public class staffPanel extends javax.swing.JFrame {
             }
         });
 
+        jTextField3.setEditable(false);
         jTextField3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -274,7 +281,7 @@ public class staffPanel extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Sales ID", "Product", "Quantity", "Date", "Total Sales"
+                "Product Name", "Quantity", "Date", "Total Sales Amount"
             }
         ));
         jScrollPane3.setViewportView(salesrecordTable);
@@ -453,7 +460,7 @@ public class staffPanel extends javax.swing.JFrame {
     
    private void fetchAndDisplaySalesRecords() {
     // Database connection parameters
-    String url = "jdbc:mysql://localhost:3306/srm_db"; // Ensure database name is correct
+    String url = "jdbc:mysql://localhost:3306/srm_db";
     String user = "root";
     String pass = "";
 
@@ -466,7 +473,13 @@ public class staffPanel extends javax.swing.JFrame {
         conn = DriverManager.getConnection(url, user, pass);
 
         // SQL query to fetch sales records for the current user
-        String fetchSalesSql = "SELECT * FROM sales WHERE user_id = ?";
+        String fetchSalesSql = "SELECT p.product_name AS 'Product Name', " +
+                   "s.quantity AS 'Quantity', " +
+                   "s.sales_date AS 'Date', " +
+                   "s.total_price AS 'Total Sales Amount' " +
+                   "FROM sales s " +
+                   "JOIN product p ON s.product_id = p.product_id " +
+                   "WHERE s.user_id = ?";
         pst = conn.prepareStatement(fetchSalesSql);
         pst.setInt(1, currentUserId); // Set the current user ID
 
@@ -477,14 +490,13 @@ public class staffPanel extends javax.swing.JFrame {
 
         // Populate the JTable with fetched data
         while (rs.next()) {
-            int salesId = rs.getInt("sales_id");
-            int productId = rs.getInt("product_id");
-            int quantity = rs.getInt("quantity");
-            String salesDate = rs.getString("sales_date");
-            double totalPrice = rs.getDouble("total_price");
+            String productName = rs.getString("Product Name");
+            int quantity = rs.getInt("Quantity");
+            String salesDate = rs.getString("Date");
+            double totalPrice = rs.getDouble("Total Sales Amount");
 
             // Add row to the table model
-            model.addRow(new Object[]{salesId, productId, quantity, salesDate, totalPrice});
+            model.addRow(new Object[]{productName, quantity, salesDate, totalPrice});
         }
 
     } catch (SQLException e) {

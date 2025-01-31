@@ -7,9 +7,7 @@ package week1;
 import com.raven.chart.ModelChart;
 import java.awt.Color;
 import java.sql.DriverManager;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.sql.Connection;
@@ -26,6 +24,10 @@ import javax.swing.JOptionPane;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -42,8 +44,154 @@ public class adminPanel extends javax.swing.JFrame {
         chart();
         pieChartOne();
         pieChartTwo();
+        dashboard();
+    }
+    void dashboard(){
+        getDailyRevenue();
+        getWeeklyRevenue();
+        getTotalRevenue();
+        getTopDryGoods();
+        getTopHomeImp();
+        getTopGrocery();
+    }
+    void getDailyRevenue() {
+        String DB_URL = "jdbc:mysql://localhost:3306/srm_db";
+        String DB_USER = "root";
+        String DB_PASSWORD = "";
+        String query = "SELECT SUM(total_price) AS dRevenue FROM sales WHERE sales_date = CURRENT_DATE";
+        double revenue = 0.0;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pst = conn.prepareStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+
+            if (rs.next()) {
+                revenue = rs.getDouble("dRevenue");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        dailyRev.setText(String.format("$%.2f", revenue));
+    }  
+    void getWeeklyRevenue() {
+        String DB_URL = "jdbc:mysql://localhost:3306/srm_db";
+        String DB_USER = "root";
+        String DB_PASSWORD = "";
+        String query = "SELECT SUM(total_price) AS wRevenue FROM sales WHERE sales_date >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)";
+        double revenue = 0.0;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pst = conn.prepareStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+
+            if (rs.next()) {
+                revenue = rs.getDouble("wRevenue");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Convert revenue to a formatted string before displaying it
+        weeklyRev.setText(String.format("$%.2f", revenue));
+    }   
+    void getTotalRevenue() {
+        String DB_URL = "jdbc:mysql://localhost:3306/srm_db";
+        String DB_USER = "root";
+        String DB_PASSWORD = "";
+        String query = "SELECT SUM(total_price) AS tRevenue FROM sales";
+        double revenue = 0.0;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pst = conn.prepareStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+
+            if (rs.next()) {
+                revenue = rs.getDouble("tRevenue");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Convert revenue to a formatted string before displaying it
+        totalRev.setText(String.format("$%.2f", revenue));
+    }
+    void getTopDryGoods() {
+        String DB_URL = "jdbc:mysql://localhost:3306/srm_db";
+        String DB_USER = "root";
+        String DB_PASSWORD = "";
+        String query = "SELECT u.name " +
+                       "FROM sales s " +
+                       "JOIN user u ON s.user_id = u.user_id " +
+                       "WHERE u.DepartmentID = 1 " +
+                       "GROUP BY u.name " +
+                       "ORDER BY SUM(s.quantity) DESC " +
+                       "LIMIT 1;";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pst = conn.prepareStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+
+            if (rs.next()) {
+                String name = rs.getString("name");
+                name = name.toUpperCase();
+                jLabel12.setText(name);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    void getTopHomeImp() {
+        String DB_URL = "jdbc:mysql://localhost:3306/srm_db";
+        String DB_USER = "root";
+        String DB_PASSWORD = "";
+        String query = "SELECT u.name " +
+                       "FROM sales s " +
+                       "JOIN user u ON s.user_id = u.user_id " +
+                       "WHERE u.DepartmentID = 2 " +
+                       "GROUP BY u.name " +
+                       "ORDER BY SUM(s.quantity) DESC " +
+                       "LIMIT 1;";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pst = conn.prepareStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+
+            if (rs.next()) {
+                String name = rs.getString("name");
+                name = name.toUpperCase();
+                jLabel13.setText(name);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    void getTopGrocery() {
+        String DB_URL = "jdbc:mysql://localhost:3306/srm_db";
+        String DB_USER = "root";
+        String DB_PASSWORD = "";
+        String query = "SELECT u.name " +
+                       "FROM sales s " +
+                       "JOIN user u ON s.user_id = u.user_id " +
+                       "WHERE u.DepartmentID = 3 " +
+                       "GROUP BY u.name " +
+                       "ORDER BY SUM(s.quantity) DESC " +
+                       "LIMIT 1;";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pst = conn.prepareStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+
+            if (rs.next()) {
+                String name = rs.getString("name");
+                name = name.toUpperCase();
+                topGrocery.setText(name);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+    
     final void pieChartOne() throws ClassNotFoundException {
         List<SaleData> dailySalesData = fetchDailySalesDataFromDatabase();
         Map<String, Integer> departmentSales = new HashMap<>();
@@ -343,7 +491,6 @@ public class adminPanel extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
         txtPass = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -355,13 +502,15 @@ public class adminPanel extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         addEmployee = new javax.swing.JButton();
         roleBox = new javax.swing.JComboBox<>();
+        
         deptBox = new javax.swing.JComboBox<>();
         jLabel25 = new javax.swing.JLabel();
-        txtPersonnel = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         inventoryTable = new javax.swing.JTable();
@@ -400,8 +549,15 @@ public class adminPanel extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel5.setText("DAILY REVENUE:");
 
+        dailyRev.setEditable(false);
         dailyRev.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        dailyRev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dailyRevActionPerformed(evt);
+            }
+        });
 
+        weeklyRev.setEditable(false);
         weeklyRev.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         weeklyRev.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -412,6 +568,7 @@ public class adminPanel extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel6.setText("TOTAL REVENUE:");
 
+        totalRev.setEditable(false);
         totalRev.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         totalRev.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -560,48 +717,44 @@ public class adminPanel extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel9.setText("ADD EMPLOYEE:");
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 80, 210, 31));
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 210, 31));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel14.setText("Birthdate:");
-        jPanel5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 360, -1, -1));
-
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel18.setText("Personnell ID:");
-        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 160, -1, -1));
+        jPanel5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, -1, -1));
 
         txtPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPassActionPerformed(evt);
             }
         });
-        jPanel5.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 150, 30));
+        jPanel5.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 270, 150, 30));
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel20.setText("Department:");
-        jPanel5.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 210, -1, -1));
+        jPanel5.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, -1, -1));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel15.setText("Password:");
-        jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, -1, -1));
-        jPanel5.add(yearSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, -1, -1));
+        jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, -1, -1));
+        jPanel5.add(yearSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 310, -1, -1));
 
         monthSpinner.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 monthSpinnerPropertyChange(evt);
             }
         });
-        jPanel5.add(monthSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 360, -1, -1));
-        jPanel5.add(daySpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 360, -1, -1));
+        jPanel5.add(monthSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 310, -1, -1));
+        jPanel5.add(daySpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, -1, -1));
 
         jLabel11.setText("Day");
-        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 390, 40, -1));
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 340, 40, -1));
 
         jLabel16.setText("Year");
-        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 390, 30, -1));
+        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, 30, -1));
 
         jLabel17.setText("Month");
-        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 40, -1));
+        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 340, 40, -1));
 
         addEmployee.setText("ADD");
         addEmployee.addActionListener(new java.awt.event.ActionListener() {
@@ -611,13 +764,18 @@ public class adminPanel extends javax.swing.JFrame {
         });
         jPanel5.add(addEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, -1, -1));
 
-        roleBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Sale Staff" }));
+        roleBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sales Staff", "Admin" }));
+        roleBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                roleBoxItemStateChanged(evt);
+            }
+        });
         roleBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 roleBoxActionPerformed(evt);
             }
         });
-        jPanel5.add(roleBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 240, 150, 30));
+        jPanel5.add(roleBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, 150, 30));
 
         deptBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Home Improvement", "Grocery", "Dry Goods" }));
         deptBox.addActionListener(new java.awt.event.ActionListener() {
@@ -625,40 +783,45 @@ public class adminPanel extends javax.swing.JFrame {
                 deptBoxActionPerformed(evt);
             }
         });
-        jPanel5.add(deptBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 200, 150, 30));
+        jPanel5.add(deptBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 150, 30));
 
         jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel25.setText("Role:");
-        jPanel5.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 240, -1, -1));
-
-        txtPersonnel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPersonnelActionPerformed(evt);
-            }
-        });
-        jPanel5.add(txtPersonnel, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 160, 150, 30));
+        jPanel5.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel26.setText("Email:");
-        jPanel5.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
+        jPanel5.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 220, -1, -1));
 
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
             }
         });
-        jPanel5.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 280, 150, 30));
+        jPanel5.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 220, 150, 30));
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel27.setText("Name:");
-        jPanel5.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
+        jPanel5.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, -1, -1));
 
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNameActionPerformed(evt);
             }
         });
-        jPanel5.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, 150, 30));
+        jPanel5.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, 150, 30));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
+        jLabel18.setText("PERSONNEL ID");
+        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 370, 170, 30));
+
+        jButton1.setText("GENERATE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 370, 100, -1));
 
         jTabbedPane1.addTab("Add Employees", jPanel5);
 
@@ -1056,74 +1219,78 @@ public class adminPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_txtProductIDKeyReleased
 
     private void addEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmployeeActionPerformed
-           // Getting values from the UI components
-int year = (int) yearSpinner.getValue();
-int month = (int) monthSpinner.getValue();
-int day = (int) daySpinner.getValue();
+        int year = (int) yearSpinner.getValue();
+        int month = (int) monthSpinner.getValue();
+        int day = (int) daySpinner.getValue();
 
-String ename = txtName.getText();
-String personnell = txtPersonnel.getText(); // Assuming this is PersonnelID
-String dept = deptBox.getSelectedItem().toString(); // DepartmentID should be handled according to your DB design
-String role = roleBox.getSelectedItem().toString();
-String email = txtEmail.getText();
-String stock = txtPass.getText(); // Assuming this is the password
-String birthdate = String.format("%04d-%02d-%02d", year, month, day);
+        String ename = txtName.getText();
+        String dept = deptBox.getSelectedItem().toString();
+        int deptID;
+        String role = roleBox.getSelectedItem().toString();
+        String email = txtEmail.getText();
+        String stock = txtPass.getText(); // Assuming this is the password
+        String birthdate = String.format("%04d-%02d-%02d", year, month, day);
 
-// Validate input
-if (personnell.isEmpty() || ename.isEmpty() || role.isEmpty() || dept.isEmpty() || email.isEmpty() || stock.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Error", JOptionPane.ERROR_MESSAGE);
-    return;
-}
+        // Validate input
+        if (ename.isEmpty() || role.isEmpty() || dept.isEmpty() || email.isEmpty() || stock.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-// Database connection parameters
-String url = "jdbc:mysql://localhost:3306/srm_db"; // Ensure database name is correct
-String user = "root";
-String pass = "";
+        if("Dry Goods".equals(dept)){
+            deptID = 1;
+        }else if("Home Improvement".equals(dept)){
+            deptID = 2;
+        }else{
+            deptID = 3;
+        }
 
-Connection conn = null;
-PreparedStatement pst = null;
+        // Database connection parameters
+        String url = "jdbc:mysql://localhost:3306/srm_db"; // Ensure database name is correct
+        String user = "root";
+        String pass = "";
 
-try {
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    conn = DriverManager.getConnection(url, user, pass);
+        Connection conn = null;
+        PreparedStatement pst = null;
 
-    // SQL query to insert new user record
-    String insertUserSql = "INSERT INTO user (PersonnelID, name, role, DepartmentID, email, BirthDate, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    pst = conn.prepareStatement(insertUserSql);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(url, user, pass);
+            String personnelID = generatePersonnelID(conn, birthdate);
+            // SQL query to insert new user record
+            String insertUserSql = "INSERT INTO user (name, PersonnelID, role, DepartmentID, email, BirthDate, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            pst = conn.prepareStatement(insertUserSql);
 
-    // Setting values in the prepared statement
-    pst.setString(1, personnell); // Set PersonnelID
-    pst.setString(2, ename); // Set name
-    pst.setString(3, role); // Set role
-    pst.setString(4, dept); // Set DepartmentID (ensure dept contains valid ID)
-    pst.setString(5, email); // Set email
-    pst.setString(6, birthdate); // Set BirthDate
-    pst.setString(7, stock); // Set password
+            pst.setString(1, ename);
+            pst.setString(2, personnelID); 
+            pst.setString(3, role); 
+            pst.setInt(4, deptID); 
+            pst.setString(5, email); 
+            pst.setString(6, birthdate); 
+            pst.setString(7, stock); 
 
-    int rowsInserted = pst.executeUpdate();
+            int rowsInserted = pst.executeUpdate();
 
-    if (rowsInserted > 0) {
-        JOptionPane.showMessageDialog(this, "User added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-    } else {
-        JOptionPane.showMessageDialog(this, "Failed to add user.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+            if (rowsInserted > 0) {
+                JOptionPane.showMessageDialog(this, "User added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to add user.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
-} catch (SQLException e) {
-    e.printStackTrace();
-    JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-} catch (ClassNotFoundException e) {
-    e.printStackTrace();
-    JOptionPane.showMessageDialog(this, "Driver not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-} finally {
-    try {
-        if (pst != null) pst.close();
-        if (conn != null) conn.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}
-
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Driver not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (pst != null) pst.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_addEmployeeActionPerformed
 
     private void roleBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleBoxActionPerformed
@@ -1134,10 +1301,6 @@ try {
         // TODO add your handling code here:
     }//GEN-LAST:event_deptBoxActionPerformed
 
-    private void txtPersonnelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPersonnelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPersonnelActionPerformed
-
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
@@ -1146,6 +1309,77 @@ try {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
 
+    private void roleBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_roleBoxItemStateChanged
+        String role = (String) roleBox.getSelectedItem();
+        if("Admin".equals(role)){
+            jLabel20.setVisible(false);
+            deptBox.setVisible(false);
+            deptBox.setSelectedItem("0");
+        }
+        else{
+            jLabel20.setVisible(true);
+            deptBox.setVisible(true);
+        }
+    }//GEN-LAST:event_roleBoxItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int year = (int) yearSpinner.getValue();
+        int month = (int) monthSpinner.getValue();
+        int day = (int) daySpinner.getValue();
+        String url = "jdbc:mysql://localhost:3306/srm_db"; // Ensure database name is correct
+        String user = "root";
+        String pass = "";
+        String birthdate = String.format("%04d-%02d-%02d", year, month, day);
+        Connection conn = null;
+        PreparedStatement pst = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(url, user, pass);
+            String personnelID = generatePersonnelID(conn, birthdate);
+            jLabel18.setText(personnelID);
+        }catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(adminPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }     
+            
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void dailyRevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dailyRevActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dailyRevActionPerformed
+
+    public static String generatePersonnelID(Connection conn, String birthdate) {
+        String formattedDate = formatBirthdate(birthdate);
+        int nextUserID = getNextUserID(conn);
+        return formattedDate + String.format("%03d", nextUserID);
+    }
+    private static String formatBirthdate(String birthdate) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MMdd");
+            Date date = inputFormat.parse(birthdate);
+            return outputFormat.format(date);  // Returns MMDD
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "0000";  // Default in case of error
+        }
+    }
+
+    private static int getNextUserID(Connection conn) {
+        int nextID = 1; // Default ID if no records exist
+        String sql = "SELECT COALESCE(MAX(user_id) + 1, 1) AS nextID FROM user";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                nextID = rs.getInt("nextID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nextID;
+    }
     /**
      * @param args the command line arguments
      */
@@ -1197,6 +1431,7 @@ try {
     private javax.swing.JSpinner daySpinner;
     private javax.swing.JComboBox<String> deptBox;
     private javax.swing.JTable inventoryTable;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1240,7 +1475,6 @@ try {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPass;
-    private javax.swing.JTextField txtPersonnel;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtProductName;
