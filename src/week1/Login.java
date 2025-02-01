@@ -40,14 +40,14 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        adminButton = new javax.swing.JToggleButton();
+        jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         passTextField = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         useridTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
-        adminButton = new javax.swing.JToggleButton();
-        jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel8.setVisible(false);
@@ -57,7 +57,7 @@ public class Login extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(0, 0));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(68, 68, 68));
+        jPanel1.setBackground(new java.awt.Color(125, 125, 125));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Myanmar Text", 1, 18)); // NOI18N
@@ -72,9 +72,21 @@ public class Login extends javax.swing.JFrame {
         jLabel6.setText("LOGIN\n");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 80, 30));
 
+        adminButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/login-avatar (1).png"))); // NOI18N
+        adminButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adminButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(adminButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 40, 40));
+
+        jLabel4.setFont(new java.awt.Font("Myanmar Text", 1, 12)); // NOI18N
+        jLabel4.setText("ADMIN");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 50, 20));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 120, 340));
 
-        jPanel2.setBackground(new java.awt.Color(93, 93, 93));
+        jPanel2.setBackground(new java.awt.Color(176, 176, 176));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         passTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -82,22 +94,22 @@ public class Login extends javax.swing.JFrame {
                 passTextFieldActionPerformed(evt);
             }
         });
-        jPanel2.add(passTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 150, -1));
+        jPanel2.add(passTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 150, -1));
 
         jLabel3.setFont(new java.awt.Font("Myanmar Text", 1, 14)); // NOI18N
         jLabel3.setText("Password:");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, -1, -1));
 
         useridTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 useridTextFieldActionPerformed(evt);
             }
         });
-        jPanel2.add(useridTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 150, -1));
+        jPanel2.add(useridTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 150, -1));
 
         jLabel1.setFont(new java.awt.Font("Myanmar Text", 1, 14)); // NOI18N
         jLabel1.setText("User ID:");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, -1, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, -1, -1));
 
         loginButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         loginButton.setText("Login");
@@ -106,31 +118,19 @@ public class Login extends javax.swing.JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, -1, -1));
-
-        adminButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/login-avatar (1).png"))); // NOI18N
-        adminButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                adminButtonActionPerformed(evt);
-            }
-        });
-        jPanel2.add(adminButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 280, 40, 40));
-
-        jLabel4.setFont(new java.awt.Font("Myanmar Text", 1, 12)); // NOI18N
-        jLabel4.setText("ADMIN");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 50, 20));
+        jPanel2.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, -1, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/key (3).png"))); // NOI18N
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, -1, 70));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, -1, 70));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jLabel8.setText("Administrator");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 340));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 470, 340));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void useridTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useridTextFieldActionPerformed
