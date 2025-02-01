@@ -108,7 +108,9 @@ public class staffPanel extends javax.swing.JFrame {
         String DB_PASSWORD = "";
 
         String query = "SELECT CONCAT('Warning: The product ', p.product_name, ' has only ', p.stock, ' units remaining.') AS Product_Stock_Warning " +
-                       "FROM product p JOIN notification n ON n.product_id = p.product_id;";
+                       "FROM product p " +
+                       "JOIN notification n ON n.product_id = p.product_id " +
+                       "WHERE n.notification_date >= DATE_SUB(CURDATE(), INTERVAL 3 DAY);";  // Filter by last 3 days
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement pst = conn.prepareStatement(query);
@@ -128,6 +130,7 @@ public class staffPanel extends javax.swing.JFrame {
                                           "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
 
 
@@ -276,11 +279,11 @@ public class staffPanel extends javax.swing.JFrame {
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(reloadButton))
                     .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         jTabbedPane1.addTab("Performance Overview", jPanel2);
@@ -400,7 +403,7 @@ public class staffPanel extends javax.swing.JFrame {
                         .addGap(15, 15, 15)
                         .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
@@ -780,9 +783,42 @@ public class staffPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_stocksActionPerformed
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-
+        searchSalesRecords(jTextField1.getText().trim());
     }//GEN-LAST:event_jTextField1KeyReleased
-    
+    private void searchSalesRecords(String keyword) {
+        String fetchSalesSql = "SELECT p.product_name AS 'Product Name', " +
+                               "s.quantity AS 'Quantity', " +
+                               "s.sales_date AS 'Date', " +
+                               "s.total_price AS 'Total Sales Amount' " +
+                               "FROM sales s " +
+                               "JOIN product p ON s.product_id = p.product_id " +
+                               "WHERE s.user_id = ? AND (p.product_name LIKE ? OR s.sales_date LIKE ?)";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/srm_db", "root", "")) {
+            PreparedStatement pst = conn.prepareStatement(fetchSalesSql);
+            pst.setInt(1, currentUserId);
+
+            String searchParam = "%" + keyword + "%";
+            pst.setString(2, searchParam);
+            pst.setString(3, searchParam);
+
+            ResultSet rs = pst.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) staffSalesTable.getModel();
+            model.setRowCount(0);
+            while (rs.next()) {
+                String productName = rs.getString("Product Name");
+                int quantity = rs.getInt("Quantity");
+                String salesDate = rs.getString("Date");
+                double totalPrice = rs.getDouble("Total Sales Amount");
+
+                model.addRow(new Object[]{productName, quantity, salesDate, totalPrice});
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error fetching sales records: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     /**
      * @param args the command line arguments

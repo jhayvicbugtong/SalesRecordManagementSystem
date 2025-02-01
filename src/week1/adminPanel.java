@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 /**
  *
  * @author USER
@@ -539,6 +540,19 @@ public class adminPanel extends javax.swing.JFrame {
         txtProductID = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        LocalDate today = LocalDate.now();         int currentYear = today.getYear();         int currentMonth = today.getMonthValue(); int currentDay = today.getDayOfMonth();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        SalesRecordTable = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        yearSpinner1 = new javax.swing.JSpinner(new SpinnerNumberModel(currentYear, 2024, currentYear, 1));
+        monthSpinner1 = new javax.swing.JSpinner(new SpinnerNumberModel(currentMonth, 01, 12, 1));
+        daySpinner1 = new javax.swing.JSpinner(new SpinnerNumberModel(currentDay,1,31,1));
+        jLabel28 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        dltRecord = new javax.swing.JButton();
+        jTextField5 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         jTextField4.setText("jTextField4");
@@ -676,20 +690,16 @@ public class adminPanel extends javax.swing.JFrame {
                                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(5, 5, 5)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(topGrocery, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(topDryG, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(topHomeImp, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(5, 5, 5)
-                                                .addComponent(topGrocery, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(5, 5, 5)
+                                                .addGap(2, 2, 2)
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(topDryG, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(topHomeImp, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addGap(2, 2, 2)
-                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                         .addGap(18, 18, 18))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
@@ -818,9 +828,9 @@ public class adminPanel extends javax.swing.JFrame {
         jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, -1, -1));
         jPanel5.add(yearSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 310, -1, -1));
 
-        monthSpinner.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                monthSpinnerPropertyChange(evt);
+        monthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                monthSpinnerStateChanged(evt);
             }
         });
         jPanel5.add(monthSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 310, -1, -1));
@@ -1056,6 +1066,119 @@ public class adminPanel extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Inventory", jPanel3);
 
+        SalesRecordTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Product Name", "Sales Staff", "Quantity", "Department", "Sales Date", "Total Sales"
+            }
+        ));
+        jScrollPane2.setViewportView(SalesRecordTable);
+        loadSalesRecordTable();
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 2, 18)); // NOI18N
+        jLabel2.setText("SALES RECORD PER DAY:");
+
+        yearSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                yearSpinner1StateChanged(evt);
+            }
+        });
+
+        monthSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                monthSpinner1StateChanged(evt);
+            }
+        });
+
+        daySpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                daySpinner1StateChanged(evt);
+            }
+        });
+
+        jLabel28.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel28.setText("YEAR:");
+
+        jLabel31.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel31.setText("MONTH:");
+
+        jLabel32.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel32.setText("DAY:");
+
+        dltRecord.setText("DELETE RECORD");
+        dltRecord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dltRecordActionPerformed(evt);
+            }
+        });
+
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField5KeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(yearSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel31)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(monthSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel32)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(daySpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(dltRecord)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(yearSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabel31)
+                    .addComponent(jLabel32)
+                    .addComponent(monthSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(daySpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(dltRecord)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Sales Record", jPanel4);
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel1.setText("ADMIN DASHBOARD");
 
@@ -1065,11 +1188,10 @@ public class adminPanel extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1106,21 +1228,6 @@ public class adminPanel extends javax.swing.JFrame {
     private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPassActionPerformed
-
-    private void monthSpinnerPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_monthSpinnerPropertyChange
-        int selectedMonth = (int) monthSpinner.getValue();
-        int year = (int) yearSpinner.getValue();
-        boolean isLeapYear = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-        SpinnerNumberModel dateModel = (SpinnerNumberModel) daySpinner.getModel();
-
-        if (selectedMonth == 1 || selectedMonth == 3 || selectedMonth == 5 || selectedMonth == 7 || selectedMonth == 8 || selectedMonth == 10 || selectedMonth == 12) {
-            dateModel.setMaximum(31);
-        } else if (selectedMonth == 2) {
-            dateModel.setMaximum(isLeapYear ? 29 : 28);
-        } else {
-            dateModel.setMaximum(30);
-        }
-    }//GEN-LAST:event_monthSpinnerPropertyChange
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
     String product = txtProductID.getText();
@@ -1185,36 +1292,77 @@ public class adminPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void InventoryTable() {
-    DefaultTableModel model = (DefaultTableModel) inventoryTable.getModel();
-    model.setRowCount(0); // Clear existing rows
+        DefaultTableModel model = (DefaultTableModel) inventoryTable.getModel();
+        model.setRowCount(0); // Clear existing rows
 
-    String url = "jdbc:mysql://localhost:3306/srm_db";
-    String user = "root";
-    String pass = "";
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
 
-    try (Connection conn = DriverManager.getConnection(url, user, pass);
-         PreparedStatement pst = conn.prepareStatement("SELECT product_id, product_name, price, stock FROM product");
-         ResultSet rs = pst.executeQuery()) {
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement pst = conn.prepareStatement("SELECT product_id, product_name, price, stock FROM product");
+             ResultSet rs = pst.executeQuery()) {
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
-        // Populate the JTable with fresh data
-        while (rs.next()) {
-            int salesId = rs.getInt("product_id");
-            String productName = rs.getString("product_name");
-            int price = rs.getInt("price");
-            int stock = rs.getInt("stock");
+            // Populate the JTable with fresh data
+            while (rs.next()) {
+                int salesId = rs.getInt("product_id");
+                String productName = rs.getString("product_name");
+                int price = rs.getInt("price");
+                int stock = rs.getInt("stock");
 
-            // Add row to the table model
-            model.addRow(new Object[]{salesId, productName, price, stock});
+                // Add row to the table model
+                model.addRow(new Object[]{salesId, productName, price, stock});
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Driver not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (ClassNotFoundException e) {
-        JOptionPane.showMessageDialog(this, "Driver not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-}
+    
+    public void loadSalesRecordTable() {
+        DefaultTableModel model = (DefaultTableModel) SalesRecordTable.getModel();
+        model.setRowCount(0);
+        int year = (int) yearSpinner1.getValue();
+        int month = (int) monthSpinner1.getValue();
+        int day = (int) daySpinner1.getValue();
+        String date = String.format("%04d-%02d-%02d", year, month, day);
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+        String qry = "SELECT p.product_name, u.name, s.quantity, d.DepartmentName, "
+                   + "s.sales_date, s.total_price FROM sales s "
+                   + "JOIN user u ON u.user_id = s.user_id "
+                   + "JOIN department d ON d.DepartmentID = u.DepartmentID "
+                   + "JOIN product p ON p.product_id = s.product_id "
+                   + "WHERE s.sales_date = ?";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            try (Connection conn = DriverManager.getConnection(url, user, pass);
+                 PreparedStatement pst = conn.prepareStatement(qry)) {
+                pst.setString(1, date);
+
+                try (ResultSet rs = pst.executeQuery()) {
+                    while (rs.next()) {
+                        String pname = rs.getString("product_name");
+                        String name = rs.getString("name");
+                        int quant = rs.getInt("quantity");
+                        String dept = rs.getString("DepartmentName");
+                        String Date = rs.getString("sales_date");
+                        double price = rs.getDouble("total_price");
+                        model.addRow(new Object[]{pname, name, quant, dept, Date, price});
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Driver not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     private void txtProductNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductNameActionPerformed
         // TODO add your handling code here:
@@ -1416,7 +1564,7 @@ public class adminPanel extends javax.swing.JFrame {
         String user = "root";
         String pass = "";
 
-        String query = "INSERT INTO notification (product_id) VALUES (?);";
+        String query = "INSERT INTO notification (product_id, notification_date) VALUES (?,CURDATE());";
 
         try (Connection conn = DriverManager.getConnection(url, user, pass);
              PreparedStatement pst = conn.prepareStatement(query)) {
@@ -1441,6 +1589,206 @@ public class adminPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
+    private void monthSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_monthSpinner1StateChanged
+        loadSalesRecordTable();
+        int selectedMonth = (int) monthSpinner1.getValue();
+        int year = (int) yearSpinner1.getValue();
+        boolean isLeapYear = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+        SpinnerNumberModel dateModel = (SpinnerNumberModel) daySpinner1.getModel();
+
+        if (selectedMonth == 1 || selectedMonth == 3 || selectedMonth == 5 || selectedMonth == 7 || selectedMonth == 8 || selectedMonth == 10 || selectedMonth == 12) {
+            dateModel.setMaximum(31);
+        } else if (selectedMonth == 2) {
+            dateModel.setMaximum(isLeapYear ? 29 : 28);
+        } else {
+            dateModel.setMaximum(30);
+        }
+    }//GEN-LAST:event_monthSpinner1StateChanged
+
+    private void monthSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_monthSpinnerStateChanged
+        int selectedMonth = (int) monthSpinner.getValue();
+        int year = (int) yearSpinner.getValue();
+        boolean isLeapYear = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+        SpinnerNumberModel dateModel = (SpinnerNumberModel) daySpinner.getModel();
+
+        if (selectedMonth == 1 || selectedMonth == 3 || selectedMonth == 5 || selectedMonth == 7 || selectedMonth == 8 || selectedMonth == 10 || selectedMonth == 12) {
+            dateModel.setMaximum(31);
+        } else if (selectedMonth == 2) {
+            dateModel.setMaximum(isLeapYear ? 29 : 28);
+        } else {
+            dateModel.setMaximum(30);
+        }
+    }//GEN-LAST:event_monthSpinnerStateChanged
+
+    private void daySpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_daySpinner1StateChanged
+        loadSalesRecordTable();
+    }//GEN-LAST:event_daySpinner1StateChanged
+
+    private void yearSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_yearSpinner1StateChanged
+        loadSalesRecordTable();
+    }//GEN-LAST:event_yearSpinner1StateChanged
+
+    private void dltRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dltRecordActionPerformed
+        int selectedRow = SalesRecordTable.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete.", 
+                                          "No Row Selected", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int salesId = searchSalesID(); 
+        if (salesId == -1) {
+            return;
+        }
+
+        int quantity = (int) SalesRecordTable.getValueAt(selectedRow, 2);
+        String productName = SalesRecordTable.getValueAt(selectedRow, 0).toString();
+
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+
+        String deleteQuery = "DELETE FROM sales WHERE sales_id = ?";
+        String updateStockQuery = "UPDATE product SET stock = stock + ? WHERE product_name = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement pstDelete = conn.prepareStatement(deleteQuery);
+                 PreparedStatement pstUpdateStock = conn.prepareStatement(updateStockQuery)) {
+
+                pstDelete.setInt(1, salesId);
+                int rowsDeleted = pstDelete.executeUpdate();
+
+                if (rowsDeleted > 0) {
+                    pstUpdateStock.setInt(1, quantity);
+                    pstUpdateStock.setString(2, productName);
+                    pstUpdateStock.executeUpdate();
+
+                    conn.commit();
+                    JOptionPane.showMessageDialog(this, "Record deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadSalesRecordTable(); 
+                } else {
+                    conn.rollback();
+                    JOptionPane.showMessageDialog(this, "Deletion failed. Sales record not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                conn.rollback();
+                JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database connection error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_dltRecordActionPerformed
+    private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
+        searchSalesRecord(jTextField5.getText().trim());
+    }//GEN-LAST:event_jTextField5KeyReleased
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+    private void searchSalesRecord(String keyword) {
+        DefaultTableModel model = (DefaultTableModel) SalesRecordTable.getModel();
+        model.setRowCount(0);
+
+        int year = (int) yearSpinner1.getValue();
+        int month = (int) monthSpinner1.getValue();
+        int day = (int) daySpinner1.getValue();
+        String date = String.format("%04d-%02d-%02d", year, month, day);  // Format date as YYYY-MM-DD
+
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+
+        String query = "SELECT p.product_name, u.name, s.quantity, d.DepartmentName, "
+                     + "s.sales_date, s.total_price FROM sales s "
+                     + "JOIN user u ON u.user_id = s.user_id "
+                     + "JOIN department d ON d.DepartmentID = u.DepartmentID "
+                     + "JOIN product p ON p.product_id = s.product_id "
+                     + "WHERE (p.product_name LIKE ? OR u.name LIKE ?) AND s.sales_date = ?";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            try (Connection conn = DriverManager.getConnection(url, user, pass);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+
+                String searchParam = "%" + keyword + "%";
+                pst.setString(1, searchParam); // Product name filter
+                pst.setString(2, searchParam); // User name filter
+                pst.setString(3, date);       // Fixed sales date
+
+                try (ResultSet rs = pst.executeQuery()) {
+                    while (rs.next()) {
+                        String pname = rs.getString("product_name");
+                        String name = rs.getString("name");
+                        int quant = rs.getInt("quantity");
+                        String dept = rs.getString("DepartmentName");
+                        String salesDate = rs.getString("sales_date");
+                        double price = rs.getDouble("total_price");
+
+                        model.addRow(new Object[]{pname, name, quant, dept, salesDate, price});
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Driver not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public int searchSalesID() {
+        int selectedRow = SalesRecordTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a row first!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return -1;
+        }
+
+        String productName = SalesRecordTable.getValueAt(selectedRow, 0).toString();
+        String userName = SalesRecordTable.getValueAt(selectedRow, 1).toString();
+        String salesDate = SalesRecordTable.getValueAt(selectedRow, 4).toString();
+        double totalPrice = Double.parseDouble(SalesRecordTable.getValueAt(selectedRow, 5).toString());
+
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+
+        String qry = "SELECT s.sales_id FROM sales s "
+                   + "JOIN user u ON u.user_id = s.user_id "
+                   + "JOIN product p ON p.product_id = s.product_id "
+                   + "WHERE p.product_name = ? AND u.name = ? AND s.sales_date = ? AND s.total_price = ?";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            try (Connection conn = DriverManager.getConnection(url, user, pass);
+                 PreparedStatement pst = conn.prepareStatement(qry)) {
+
+                pst.setString(1, productName);
+                pst.setString(2, userName);
+                pst.setString(3, salesDate);
+                pst.setDouble(4, totalPrice);
+
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("sales_id");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No matching sales record found!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Driver not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return -1;
+    }
     public static String generatePersonnelID(Connection conn, String birthdate) {
         String formattedDate = formatBirthdate(birthdate);
         int nextUserID = getNextUserID(conn);
@@ -1457,7 +1805,6 @@ public class adminPanel extends javax.swing.JFrame {
             return "0000";  // Default in case of error
         }
     }
-
     private static int getNextUserID(Connection conn) {
         int nextID = 1; // Default ID if no records exist
         String sql = "SELECT COALESCE(MAX(user_id) + 1, 1) AS nextID FROM user";
@@ -1512,13 +1859,16 @@ public class adminPanel extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javaswingdev.chart.PieChart DailyPieChart;
+    private javax.swing.JTable SalesRecordTable;
     private javaswingdev.chart.PieChart WeeklyPieChart;
     private javax.swing.JButton addButton;
     private javax.swing.JButton addEmployee;
     private com.raven.chart.Chart chart;
     private javax.swing.JTextField dailyRev;
     private javax.swing.JSpinner daySpinner;
+    private javax.swing.JSpinner daySpinner1;
     private javax.swing.JComboBox<String> deptBox;
+    private javax.swing.JButton dltRecord;
     private javax.swing.JTable inventoryTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1534,6 +1884,7 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1542,7 +1893,10 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1552,14 +1906,18 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     private javax.swing.JSpinner monthSpinner;
+    private javax.swing.JSpinner monthSpinner1;
     private javax.swing.JComboBox<String> roleBox;
     private javax.swing.JLabel topDryG;
     private javax.swing.JLabel topDryG1;
@@ -1575,5 +1933,6 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JTextField txtStock;
     private javax.swing.JTextField weeklyRev;
     private javax.swing.JSpinner yearSpinner;
+    private javax.swing.JSpinner yearSpinner1;
     // End of variables declaration//GEN-END:variables
 }
