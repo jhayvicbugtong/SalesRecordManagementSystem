@@ -170,6 +170,13 @@ public class staffPanel extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(125, 125, 125));
+
+        jTabbedPane1.setBackground(new java.awt.Color(173, 173, 173));
+
+        jPanel2.setBackground(new java.awt.Color(173, 173, 173));
 
         staffSalesTable.setAutoCreateRowSorter(true);
         staffSalesTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -287,6 +294,8 @@ public class staffPanel extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Performance Overview", jPanel2);
+
+        jPanel3.setBackground(new java.awt.Color(173, 173, 173));
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
