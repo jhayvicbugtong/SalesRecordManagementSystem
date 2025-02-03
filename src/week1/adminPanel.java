@@ -6,6 +6,8 @@ package week1;
 
 import com.raven.chart.ModelChart;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 /**
  *
  * @author USER
@@ -528,6 +534,8 @@ public class adminPanel extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         inventoryTable = new javax.swing.JTable();
@@ -540,6 +548,7 @@ public class adminPanel extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
         LocalDate today = LocalDate.now();         int currentYear = today.getYear();         int currentMonth = today.getMonthValue(); int currentDay = today.getDayOfMonth();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -696,44 +705,44 @@ public class adminPanel extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel9.setText("ADD EMPLOYEE:");
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 210, 31));
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 50, 210, 31));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel14.setText("Birthdate:");
-        jPanel5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, -1, -1));
+        jPanel5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, -1, -1));
 
         txtPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPassActionPerformed(evt);
             }
         });
-        jPanel5.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 270, 150, 30));
+        jPanel5.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 290, 150, 30));
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel20.setText("Department:");
-        jPanel5.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, -1, -1));
+        jPanel5.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 190, -1, -1));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel15.setText("Password:");
-        jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, -1, -1));
-        jPanel5.add(yearSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 310, -1, -1));
+        jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, -1, -1));
+        jPanel5.add(yearSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 330, -1, -1));
 
         monthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 monthSpinnerStateChanged(evt);
             }
         });
-        jPanel5.add(monthSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 310, -1, -1));
-        jPanel5.add(daySpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, -1, -1));
+        jPanel5.add(monthSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 330, -1, -1));
+        jPanel5.add(daySpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 330, -1, -1));
 
         jLabel11.setText("Day");
-        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 340, 40, -1));
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 360, 40, -1));
 
         jLabel16.setText("Year");
-        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, 30, -1));
+        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 360, 30, -1));
 
         jLabel17.setText("Month");
-        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 340, 40, -1));
+        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 360, 40, -1));
 
         addEmployee.setText("ADD");
         addEmployee.addActionListener(new java.awt.event.ActionListener() {
@@ -741,7 +750,7 @@ public class adminPanel extends javax.swing.JFrame {
                 addEmployeeActionPerformed(evt);
             }
         });
-        jPanel5.add(addEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, -1, -1));
+        jPanel5.add(addEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 440, -1, -1));
 
         roleBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sales Staff", "Admin" }));
         roleBox.addItemListener(new java.awt.event.ItemListener() {
@@ -754,7 +763,7 @@ public class adminPanel extends javax.swing.JFrame {
                 roleBoxActionPerformed(evt);
             }
         });
-        jPanel5.add(roleBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, 150, 30));
+        jPanel5.add(roleBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 140, 150, 30));
 
         deptBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Home Improvement", "Grocery", "Dry Goods" }));
         deptBox.addActionListener(new java.awt.event.ActionListener() {
@@ -762,37 +771,37 @@ public class adminPanel extends javax.swing.JFrame {
                 deptBoxActionPerformed(evt);
             }
         });
-        jPanel5.add(deptBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 150, 30));
+        jPanel5.add(deptBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 190, 150, 30));
 
         jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel25.setText("Role:");
-        jPanel5.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
+        jPanel5.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 140, -1, -1));
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel26.setText("Email:");
-        jPanel5.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 220, -1, -1));
+        jPanel5.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, -1, -1));
 
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
             }
         });
-        jPanel5.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 220, 150, 30));
+        jPanel5.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 240, 150, 30));
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel27.setText("Name:");
-        jPanel5.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, -1, -1));
+        jPanel5.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, -1, -1));
 
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNameActionPerformed(evt);
             }
         });
-        jPanel5.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, 150, 30));
+        jPanel5.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 90, 150, 30));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jLabel18.setText("PERSONNEL ID");
-        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 370, 170, 30));
+        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 390, 170, 30));
 
         jButton1.setText("GENERATE");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -800,7 +809,12 @@ public class adminPanel extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 370, 100, -1));
+        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 100, -1));
+
+        jScrollPane4.setViewportView(jTree1);
+        loadStaffTree();
+
+        jPanel5.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 520));
 
         jTabbedPane1.addTab("Add Employees", jPanel5);
 
@@ -856,7 +870,7 @@ public class adminPanel extends javax.swing.JFrame {
             inventoryTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 954, 253));
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 960, 230));
 
         txtProductName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -878,7 +892,7 @@ public class adminPanel extends javax.swing.JFrame {
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel24.setText("Stock Count:");
-        jPanel3.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 450, 129, -1));
+        jPanel3.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 430, 129, -1));
 
         txtProductID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -915,6 +929,18 @@ public class adminPanel extends javax.swing.JFrame {
         jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel30.setText("Product Name:");
         jPanel3.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, 130, -1));
+
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
+            }
+        });
+        jPanel3.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 960, -1));
 
         jTabbedPane1.addTab("Inventory", jPanel3);
 
@@ -1327,6 +1353,8 @@ public class adminPanel extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to add user.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            
+            loadStaffTree();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1544,6 +1572,15 @@ public class adminPanel extends javax.swing.JFrame {
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+        String search = jTextField6.getText();
+        searchInventory(search);
+    }//GEN-LAST:event_jTextField6KeyReleased
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        
+    }//GEN-LAST:event_jTextField6ActionPerformed
     private void searchSalesRecord(String keyword) {
         DefaultTableModel model = (DefaultTableModel) SalesRecordTable.getModel();
         model.setRowCount(0);
@@ -1672,6 +1709,143 @@ public class adminPanel extends javax.swing.JFrame {
         }
         return nextID;
     }
+    
+    private void searchInventory(String keyword) {
+        String fetchSalesSql = "SELECT product_id, product_name, price, stock FROM product " +
+                               "WHERE product_name LIKE ? OR product_id = ? OR price = ? OR stock = ?;";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/srm_db", "root", "");
+             PreparedStatement pst = conn.prepareStatement(fetchSalesSql)) {
+
+            String searchParam = "%" + keyword + "%";
+
+            int intValue = 0;
+            boolean isNumber = false;
+            try {
+                intValue = Integer.parseInt(keyword);
+                isNumber = true;
+            } catch (NumberFormatException e) {}
+
+            pst.setString(1, searchParam);
+            if (isNumber) {
+                pst.setInt(2, intValue);
+                pst.setInt(3, intValue);
+                pst.setInt(4, intValue);
+            } else {
+                pst.setNull(2, java.sql.Types.INTEGER);
+                pst.setNull(3, java.sql.Types.INTEGER);
+                pst.setNull(4, java.sql.Types.INTEGER);
+            }
+
+            ResultSet rs = pst.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) inventoryTable.getModel();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                String productName = rs.getString("product_name");
+                double price = rs.getDouble("price");
+                int stock = rs.getInt("stock");
+
+                model.addRow(new Object[]{productId, productName, price, stock});
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error fetching Inventory: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void loadStaffTree() {
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+
+        String query = "SELECT d.DepartmentName, u.name FROM user u " +
+                       "JOIN department d ON u.DepartmentID = d.DepartmentID " +
+                       "ORDER BY d.DepartmentName, u.name";
+
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Departments");
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement pst = conn.prepareStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+
+            Map<String, DefaultMutableTreeNode> departmentNodes = new HashMap<>();
+
+            while (rs.next()) {
+                String departmentName = rs.getString("DepartmentName");
+                String staffName = rs.getString("name");
+
+                DefaultMutableTreeNode deptNode = departmentNodes.get(departmentName);
+
+                if (deptNode == null) {
+                    deptNode = new DefaultMutableTreeNode(departmentName);
+                    departmentNodes.put(departmentName, deptNode);
+                    root.add(deptNode);
+                }
+
+                deptNode.add(new DefaultMutableTreeNode(staffName));
+            }
+
+ 
+            jTree1.setModel(new DefaultTreeModel(root));
+            
+            jTree1.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) { 
+                    TreePath selectedPath = jTree1.getPathForLocation(e.getX(), e.getY());
+
+                    if (selectedPath != null) {
+                        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+
+                        if (selectedNode.isLeaf()) { 
+                            String staffName = selectedNode.getUserObject().toString();
+                            showUserDetails(staffName);
+                        }
+                    }
+                }
+            }
+        });
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error fetching staff list: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void showUserDetails(String staffName) {
+        String url = "jdbc:mysql://localhost:3306/srm_db";
+        String user = "root";
+        String pass = "";
+
+        String query = "SELECT email, role, birthdate FROM user WHERE name = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setString(1, staffName);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                String email = rs.getString("email");
+                String role = rs.getString("role");
+                String birthdate = rs.getString("birthdate");
+
+                String userInfo = "Name: " + staffName + "\n"
+                                + "Email: " + email + "\n"
+                                + "Role: " + role + "\n"
+                                + "Birthdate: " + birthdate;
+
+                JOptionPane.showMessageDialog(null, userInfo, "User Details", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "No details found for " + staffName, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error fetching user details: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -1764,12 +1938,15 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTree jTree1;
     private javax.swing.JSpinner monthSpinner;
     private javax.swing.JSpinner monthSpinner1;
     private javax.swing.JComboBox<String> roleBox;

@@ -305,7 +305,6 @@ public class staffPanel extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextArea1);
         jTextArea1.setVisible(false);
 
-        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/user-icons (1) (1).png"))); // NOI18N
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
