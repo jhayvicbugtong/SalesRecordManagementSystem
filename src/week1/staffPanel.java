@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -130,11 +131,6 @@ public class staffPanel extends javax.swing.JFrame {
                                           "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
-
-
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -305,6 +301,7 @@ public class staffPanel extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextArea1);
         jTextArea1.setVisible(false);
 
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/key (1).png"))); // NOI18N
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -441,8 +438,8 @@ public class staffPanel extends javax.swing.JFrame {
                         .addGap(25, 25, 25))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
@@ -626,27 +623,47 @@ public class staffPanel extends javax.swing.JFrame {
     String product = productId.getText();
     String name = productName1.getText();
     String quantity = quantities.getText();
+    String Stocks = stocks.getText();
     
     if (product.isEmpty() || name.isEmpty() || quantity.isEmpty()) {
         JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
-
-    // Database connection parameters
+    
     String url = "jdbc:mysql://localhost:3306/srm_db"; // Ensure database name is correct
     String user = "root";
     String pass = "";
+    int stock = Integer.parseInt(Stocks);
     int price = getPrice(Integer.parseInt(product));
     int quant = Integer.parseInt(quantity);
     int total = quant * price;
+    if(quant > stock){
+        JOptionPane.showMessageDialog(this, "Not enough stocks", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    if(quant < 0){
+        JOptionPane.showMessageDialog(this, "Enter appropiate quantity", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
     Connection conn = null;
     PreparedStatement pst = null;
-
+    String query = "SELECT * FROM user u JOIN product p ON p.DepartmentID = u.DepartmentID "
+             + "WHERE u.user_id = ? AND p.product_id = ?;";
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = DriverManager.getConnection(url, user, pass);
+        pst = conn.prepareStatement(query);
+        pst.setInt(1, currentUserId);
+        pst.setInt(2, Integer.parseInt(product));
 
-        // SQL query to insert new sales record
+        ResultSet rs = pst.executeQuery();
+
+        if (!rs.next()) {
+            JOptionPane.showMessageDialog(this, "Not in your Department.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         String insertSalesSql = "INSERT INTO sales (user_id, product_id, quantity, sales_date, total_price) VALUES (?, ?, ?, CURDATE(), ?)";
         pst = conn.prepareStatement(insertSalesSql);
 
@@ -675,8 +692,6 @@ public class staffPanel extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Failed to add sales record.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
-        
-
     } catch (SQLException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
